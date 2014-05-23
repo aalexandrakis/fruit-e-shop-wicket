@@ -1,0 +1,47 @@
+<wicket:extend>
+<br>
+<h3 wicket:id="PageHeader"></h3>
+<form wicket:id="ItemForm"> 
+     <table>
+       <tr>
+         <th wicket:id="ItemIdHeader" style="text-align:left;"></th>
+         <td> <input type="number" wicket:id="itemid" size="10" readonly=true/></td>
+       </tr>
+       <tr>
+         <th wicket:id="DescrHeader" style="text-align:left;"> </th>
+         <td> <input type="text" wicket:id="descr" size="50"/></td>
+       </tr>
+       <tr>
+         <th wicket:id="MmHeader" style="text-align:left;"> </th>
+         <td> <span wicket:id="mm">
+         		 <input type="radio"/>
+         	  </span>
+         </td>
+       </tr>
+       <tr>
+         <th wicket:id="PriceHeader" style="text-align:left;"></th>
+         <td> <input type="number" wicket:id="price"  size="10"/></td>
+       </tr>
+       <tr>
+         <th wicket:id="CategoryHeader" style="text-align:left;"> </th>
+         <td> <select wicket:id="category_cbx">
+         	  </select>
+         </td>
+       </tr>
+       <tr>
+         <th wicket:id="DisplayHeader" style="text-align:left;"> </th>
+         <td> <input type="checkbox" wicket:id="chk_display"/></td>
+       </tr>                                             
+       <tr>
+         <th wicket:id="PhotoHeader" style="text-align:left;"></th>
+         <td> <input type="text" wicket:id="photo" size="30"/></td>
+       </tr>
+       <tr>
+         <th wicket:id="UploadPhotoHeader"  style="text-align:left;"></th>
+         <td><input wicket:id="fileUpload" type="file"/></td>
+       </tr>
+   </table>
+   <input type="submit" wicket:id="SaveButton"/> 
+   <br>
+</form>
+</wicket:extend>

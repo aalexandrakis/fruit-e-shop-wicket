@@ -1,0 +1,38 @@
+<wicket:extend>
+<br>
+<h3 wicket:id="PageHeader"></h3>
+<form wicket:id="NewUserForm"> 
+     <table>
+       <tr>
+         <th wicket:id="NameHeader" style="text-align:left;"> Ονοματεπώνυμο </th>
+         <td> <input type="text" wicket:id="name" size="50" maxlength"50"></td>
+       </tr>
+       <tr>
+         <th wicket:id="AddressHeader" style="text-align:left;"> Διεύθυνση </th>
+         <td> <input type="text" wicket:id="address" size="50" maxlength"100"></td>
+       </tr>
+       <tr>
+         <th wicket:id="CityHeader" style="text-align:left;"> Πόλη/Περιοχή </th>
+         <td> <input type="text" wicket:id="city" size="50" maxlength"50"></td>
+       </tr>
+       <tr>
+         <th wicket:id="PhoneHeader" style="text-align:left;"> Τηλέφωνο </th>
+         <td> <input type="text" wicket:id="phone"  size="10" maxlength"10"></td>
+       </tr>
+       <tr>
+         <th wicket:id="EmailHeader" style="text-align:left;"> E-mail </th>
+         <td> <input type="text" wicket:id="email" size="50" maxlength"50"></td>
+       </tr>
+       <tr>
+         <th wicket:id="PasswordHeader" style="text-align:left;"> Κωδικός χρήστη </th>
+         <td> <input type="password" wicket:id="password" size="20" maxlength"20"></td>
+       </tr>                                             
+       <tr>
+         <th wicket:id="ConfirmHeader" style="text-align:left;"> Επιβεβαίωση κωδικού χρήστη </th>
+         <td> <input type="password" wicket:id="confpass" size="20" maxlength"20"></td>
+       </tr>
+   </table>
+   <input type="submit" wicket:id="NewUserButton"/> 
+   <br>
+</form>
+</wicket:extend>

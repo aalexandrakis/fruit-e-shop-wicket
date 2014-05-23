@@ -1,0 +1,54 @@
+<wicket:extend>
+<br>
+
+<span class="header3" wicket:id="Header1"></span>
+<span class="header3" wicket:id="OrderId"></span>
+<br>
+<span class="header3" wicket:id="Header2a"></span>
+<span class="header3" wicket:id="UserName"></span>
+<br>
+<span class="header3" wicket:id="Header3"></span>
+<span class="header3" wicket:id="Date"></span>
+<br>
+<span class="header3" wicket:id="Header4"></span>
+<span class="header3" wicket:id="StatusDesc"></span>
+
+
+<div style="clear:both;">
+	<table>
+	<tr>
+		<th wicket:id="itemidHeader"></th>
+		<th wicket:id="descrHeader"></th>
+		<th wicket:id="mmHeader"></th>
+		<th wicket:id="priceHeader"></th>
+		<th wicket:id="quantityHeader"></th>
+		<th wicket:id="amountHeader"></th>
+	</tr>
+	<tbody>
+		<tr wicket:id="order">
+			<td> <span wicket:id="itemid"></span></td>
+			<td> <span wicket:id="descr"></span></td>
+			<td> <span wicket:id="mm"></span></td>
+			<td> &euro;<span wicket:id="price"></span></td>
+			<td> <span wicket:id="quantity"></span></td>
+			<td> &euro;<span wicket:id="amount"></span></td>
+		</tr>
+	</tbody>
+	<tfoot>
+	       <th wicket:id="total"></th>
+	       <th>&nbsp;</th>
+	       <th>&nbsp;</th>
+	       <th>&nbsp;</th>
+	       <th>&nbsp;</th>
+	       <th wicket:id="totalamount"></th>
+	</tfoot>
+	</table>
+</div>
+<br>
+<form wicket:id="formStatus">
+   <span wicket:id="changeStatusTo"></span>
+   <input type="number" wicket:id="orderid" style="display:none;"/>
+   <input type="submit" wicket:id="changeStatusButton" name="changeStatusButton" id="changeStatusButton"/>
+</form>
+</wicket:extend>
+

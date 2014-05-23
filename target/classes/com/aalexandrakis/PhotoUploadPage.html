@@ -1,0 +1,26 @@
+<wicket:extend>
+<h3 wicket:id="PageHeader"></h3>
+<form wicket:id="UploadImageForm">
+	<table>
+	   <tr>
+         <th wicket:id="UploadPhotoHeader"  style="text-align:left;"></th>
+         <td><input wicket:id="fileUpload" type="file"/></td>
+       </tr>
+    </table>
+    <input type="submit" wicket:id="UploadButton"/>
+</form>
+<br>
+
+<div style="width:100%" >
+	   <div id="photolist" wicket:id = "photolist" style="float:left;width:20%;height:180px">
+	        <img wicket:id="StoreImage" style="align:center;height: 130px;width: 130px"/>
+	        <br>
+	        <span wicket:id="PhotoName"> </span>
+	        <!--<br>
+			 <a href="#" wicket:id="ItemDetails" class="itemlink">
+				<span class="itemlink" wicket:id="descr">Gouda</span>
+			</a>	
+			<br> -->
+	   </div>
+</div>
+</wicket:extend>
