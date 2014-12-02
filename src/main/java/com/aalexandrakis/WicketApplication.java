@@ -404,8 +404,8 @@ public class WicketApplication extends WebApplication
 	        
 	        Message message = new MimeMessage(session);
 	        try {
-	    	    trans.connect("smtp.live.com", 25, "aalexandrakis@hotmail.com", "c12021982");
-				message.setFrom(new InternetAddress("aalexandrakis@hotmail.com"));
+	    	    trans.connect("smtp.live.com", 25, System.getenv("HOTMAIL"), System.getenv("HOTMAIL_PASSWORD"));
+				message.setFrom(new InternetAddress(System.getenv("HOTMAIL")));
 				message.setRecipients(Message.RecipientType.TO,InternetAddress.parse(eml));
 	        	//String msg="Thank's to Behind Java Scene to teach the core aspect of Email sending ";
 				message.setSubject(sbj);
