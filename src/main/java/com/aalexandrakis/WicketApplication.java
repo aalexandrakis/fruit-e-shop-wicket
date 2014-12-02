@@ -390,7 +390,7 @@ public class WicketApplication extends WebApplication
 			
 		    javax.mail.Session session = javax.mail.Session.getDefaultInstance(props, new javax.mail.Authenticator()
 	        { protected PasswordAuthentication getPasswordAuthentication()
-	            {  return new PasswordAuthentication("aalexandrakis@hotmail.com", "c12021982");
+	            {  return new PasswordAuthentication(System.getenv("HOTMAIL"), System.getenv("HOTMAIL_PASSWORD"));
 	             }
 	         });
 		    session.setDebug(true);
