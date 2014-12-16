@@ -6,6 +6,7 @@ import java.util.List;
 import javax.activation.MimeType;
 import javax.jws.WebService;
 import javax.mail.internet.MimeMultipart;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -40,10 +41,10 @@ public class WebServices {
 	}
 
 	
-	@Path("/login/{email}/{password}")
+	@Path("/login")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-	public Response logIn(@PathParam("email") String email, @PathParam("password") String password ) throws JSONException{
+	public Response logIn(@FormParam("email") String email, @FormParam("password") String password ) throws JSONException{
 		JSONObject returnObject = new JSONObject();
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 		org.hibernate.Session session = sf.openSession(); 
@@ -51,6 +52,7 @@ public class WebServices {
 		try{ 
 			tx = session.beginTransaction();
 			String hql = "From Customer C where C.email = :email and C.password = :password";
+			System.out.println("email "+ email + " password " + password);
 			Query q = session.createQuery(hql)
 					  .setString("email", email)
 					  .setString("password", password);
@@ -59,7 +61,6 @@ public class WebServices {
 			
             //DebugString = q.getQueryString()										
 			if (resultList.isEmpty()){
-				returnObject.put("status", 500);
 				returnObject.put("message", "Incorrect email or password. Please try again");
 				return Response.ok(returnObject.toString()).build();
 
@@ -80,7 +81,7 @@ public class WebServices {
 			tx.commit();
 		    } catch (HibernateException e) { 
 				if (tx!=null) tx.rollback();
-				e.printStackTrace(); 
+				e.printStackTrace();
 			}finally { 
 				((org.hibernate.Session) session).close(); 
 			}
