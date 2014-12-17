@@ -4,3 +4,4 @@ target/
 .setings/
 .idea/
 /fruitShopWicket.iml
+*.class

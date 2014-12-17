@@ -159,4 +159,30 @@ public class WebServices {
 		return Response.status(500).build();
 	}
 	
+
+	@Path("/resetPassword/{email}")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	public Response resetPassword(@PathParam("email") String email) {
+		JSONObject jsonResponse = new JSONObject();
+		String newPassword = LoginPanel.makeid();
+		try {
+			if (!WicketApplication.get().resetPassword(email, newPassword)){
+				jsonResponse.put("status", "FAILED");
+				jsonResponse.put("message", "Reset password failed because of an internal error. Please try later");
+			} else {
+				jsonResponse.put("status", "OK");
+				jsonResponse.put("message", "Password changed succesfully");	
+			}
+			return Response.ok(jsonResponse).build();
+			
+		} catch (JSONException e){
+			e.printStackTrace();
+		}
+	
+		return Response.status(500).build();
+	}
+	
 }
+	
+

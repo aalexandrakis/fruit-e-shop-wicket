@@ -349,7 +349,7 @@ public class WicketApplication extends WebApplication
 				}
 	}
 		
-		public Boolean resetPassword(String Username, String newPassword) {
+		public static Boolean resetPassword(String Username, String newPassword) {
 			Customer user = new Customer();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
@@ -381,7 +381,7 @@ public class WicketApplication extends WebApplication
 				}
 		}
 		
-		public Boolean SendMail(String eml, String sbj, String msg){
+		public static Boolean SendMail(String eml, String sbj, String msg){
 			Properties props = new Properties();
 	    	props.setProperty("mail.transport.protocol", "smtp");
 		    props.setProperty("mail.host", "smtp.live.com");

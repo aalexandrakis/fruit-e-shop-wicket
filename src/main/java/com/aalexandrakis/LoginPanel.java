@@ -174,7 +174,7 @@ public class LoginPanel extends Panel {
 	   }
    }
 
-   private String makeid(){
+   static String makeid(){
        String text = "";
        String possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
