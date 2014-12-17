@@ -138,4 +138,41 @@ public class WebServices {
 	}
 	
 	
+	@Path("/getItems")
+	@GET
+	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
+	public Response getItems() {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = null;
+		try{ 
+			tx = session.beginTransaction();
+			String hql = "From Item";
+			Query q = session.createQuery(hql);
+			List<Items> resultList = q.list();
+			
+            //DebugString = q.getQueryString()										
+			if (resultList.isEmpty()){
+				return Response.ok(null).build();
+			} else {
+				Items items = new Items(resultList);
+				JAXBContext context = JAXBContext.newInstance(Items.class);
+				Marshaller m = context.createMarshaller();
+				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				StringWriter sw = new StringWriter();
+				m.marshal(items, sw);
+				return Response.ok(sw.toString().getBytes()).build();
+			}
+	    } catch (HibernateException e) { 
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally { 
+			((org.hibernate.Session) session).close(); 
+		}
+		return Response.status(500).build();
+	}
+	
 }
