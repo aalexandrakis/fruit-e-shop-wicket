@@ -118,37 +118,29 @@ public class WebServices {
 				return Response.ok(null).build();
 			} else {
 				Categories categories = new Categories(resultList);
-				JAXBContext context = JAXBContext.newInstance(Categories.class);
-				Marshaller m = context.createMarshaller();
-				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-				StringWriter sw = new StringWriter();
-				m.marshal(categories, sw);
-				return Response.ok(sw.toString().getBytes()).build();
+				return Response.ok(categories).build();
 			}
 	    } catch (HibernateException e) { 
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally { 
+	    } finally { 
 			((org.hibernate.Session) session).close(); 
 		}
 		return Response.status(500).build();
 	}
 	
 	
-	@Path("/getItems")
+	@Path("/getItems/{catId}")
 	@GET
 	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
-	public Response getItems() {
+	public Response getItems(@PathParam("catId") String catId) {
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 		org.hibernate.Session session = sf.openSession(); 
 		Transaction tx = null;
 		try{ 
 			tx = session.beginTransaction();
-			String hql = "From Item";
-			Query q = session.createQuery(hql);
+			String hql = "From Item where categoryid = :catId";
+			Query q = session.createQuery(hql).setString("catId", catId);
 			List<Items> resultList = q.list();
 			
             //DebugString = q.getQueryString()										
@@ -156,18 +148,10 @@ public class WebServices {
 				return Response.ok(null).build();
 			} else {
 				Items items = new Items(resultList);
-				JAXBContext context = JAXBContext.newInstance(Items.class);
-				Marshaller m = context.createMarshaller();
-				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-				StringWriter sw = new StringWriter();
-				m.marshal(items, sw);
-				return Response.ok(sw.toString().getBytes()).build();
+				return Response.ok(items).build();
 			}
 	    } catch (HibernateException e) { 
 			if (tx!=null) tx.rollback();
-			e.printStackTrace();
-		} catch (JAXBException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally { 
 			((org.hibernate.Session) session).close(); 
