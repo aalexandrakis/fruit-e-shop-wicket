@@ -160,10 +160,10 @@ public class WebServices {
 	}
 	
 
-	@Path("/resetPassword/{email}")
-	@GET
+	@Path("/resetPassword")
+	@POST
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
-	public Response resetPassword(@PathParam("email") String email) {
+	public Response resetPassword(@FormParam("email") String email) {
 		JSONObject jsonResponse = new JSONObject();
 		String newPassword = LoginPanel.makeid();
 		try {
@@ -171,10 +171,10 @@ public class WebServices {
 				jsonResponse.put("status", "FAILED");
 				jsonResponse.put("message", "Reset password failed because of an internal error. Please try later");
 			} else {
-				jsonResponse.put("status", "OK");
+				jsonResponse.put("status", "SUCCESS");
 				jsonResponse.put("message", "Password changed succesfully");	
 			}
-			return Response.ok(jsonResponse).build();
+			return Response.ok(jsonResponse.toString()).build();
 			
 		} catch (JSONException e){
 			e.printStackTrace();
