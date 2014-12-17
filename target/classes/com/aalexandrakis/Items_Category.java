@@ -1,5 +1,8 @@
 package com.aalexandrakis;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="item_category")
 public class Items_Category implements java.io.Serializable{
 	private Integer categoryid;
     private String category;

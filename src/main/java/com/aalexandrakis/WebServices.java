@@ -1,5 +1,10 @@
 package com.aalexandrakis;
 
+import java.io.BufferedOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.StringWriter;
 import java.util.Iterator;
 import java.util.List;
 
@@ -16,6 +21,13 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.ResponseBuilder;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.stream.XMLOutputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamWriter;
+import javax.xml.transform.Result;
 
 import org.apache.wicket.ajax.json.JSONException;
 import org.apache.wicket.ajax.json.JSONObject;
@@ -52,7 +64,6 @@ public class WebServices {
 		try{ 
 			tx = session.beginTransaction();
 			String hql = "From Customer C where C.email = :email and C.password = :password";
-			System.out.println("email "+ email + " password " + password);
 			Query q = session.createQuery(hql)
 					  .setString("email", email)
 					  .setString("password", password);
@@ -88,6 +99,43 @@ public class WebServices {
 		return Response.status(500).build();
 	}
 	
+	
+	@Path("/getCategories")
+	@GET
+	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
+	public Response getCategories() {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = null;
+		try{ 
+			tx = session.beginTransaction();
+			String hql = "From Items_Category";
+			Query q = session.createQuery(hql);
+			List<Items_Category> resultList = q.list();
+			
+            //DebugString = q.getQueryString()										
+			if (resultList.isEmpty()){
+				return Response.ok(null).build();
+			} else {
+				Categories categories = new Categories(resultList);
+				JAXBContext context = JAXBContext.newInstance(Categories.class);
+				Marshaller m = context.createMarshaller();
+				m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+				StringWriter sw = new StringWriter();
+				m.marshal(categories, sw);
+				return Response.ok(sw.toString().getBytes()).build();
+			}
+	    } catch (HibernateException e) { 
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+		} catch (JAXBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally { 
+			((org.hibernate.Session) session).close(); 
+		}
+		return Response.status(500).build();
+	}
 	
 	
 }
