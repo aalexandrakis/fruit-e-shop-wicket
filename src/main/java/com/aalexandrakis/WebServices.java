@@ -5,12 +5,17 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.activation.MimeType;
 import javax.jws.WebService;
 import javax.mail.internet.MimeMultipart;
+import javax.swing.text.DateFormatter;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -35,6 +40,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 
 
 @WebService
@@ -183,6 +189,43 @@ public class WebServices {
 		return Response.status(500).build();
 	}
 	
+	@Path("/register")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	public Response register(@FormParam("name") String name, @FormParam("address") String address, @FormParam("city") String city, @FormParam("phone") String phone, 
+							 @FormParam("email") String email, @FormParam("password") String password ) {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = session.beginTransaction();
+		JSONObject jsonResponse = new JSONObject();
+		try{
+			String hql = "FROM Customer where email = :email";
+			Query q = session.createQuery(hql).setString("email", email);
+			List<Customer> custList = q.list();
+			if (custList.size() > 0){
+				jsonResponse.put("status", "FAILED");
+				jsonResponse.put("message", "This email already exists.");
+			} else {
+				DateFormat df = new SimpleDateFormat("yyyyMMdd");
+				int date = Integer.valueOf(df.format(new Date())); 
+				Customer cust = new Customer(null, name, address, city, phone, password, email, 0, date);
+				session.saveOrUpdate(cust);
+				tx.commit();
+				jsonResponse.put("status", "SUCCESS");
+				jsonResponse.put("message", "Your registration is completed.");
+				
+			}
+			return Response.ok(jsonResponse.toString()).build();
+		} catch (JSONException e){
+			e.printStackTrace();
+		} catch (Exception e){
+			e.printStackTrace();
+		} finally {			
+			session.close();
+		}
+	
+		return Response.status(500).build();
+	}
 }
 	
 
