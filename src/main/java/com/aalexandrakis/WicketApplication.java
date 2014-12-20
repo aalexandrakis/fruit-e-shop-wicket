@@ -25,11 +25,8 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.request.Request;
 import org.apache.wicket.request.Response;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.resource.ByteArrayResource;
 import org.apache.wicket.request.resource.IResource;
-import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.request.resource.ResourceStreamResource;
-import org.apache.wicket.request.resource.SharedResourceReference;
 import org.apache.wicket.util.file.File;
 import org.apache.wicket.util.resource.FileResourceStream;
 import org.hibernate.HibernateException;
@@ -103,6 +100,7 @@ public class WicketApplication extends WebApplication
 		return (WicketApplication) Application.get();
 	}
 	
+	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Items_Category> getCategories() {
 		List<Items_Category> Categories = null;
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -129,6 +127,7 @@ public class WicketApplication extends WebApplication
 		
 	}
 	
+	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Item> getItems(Integer CategoryId) {
 		List<Item> Items = null;
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -155,6 +154,7 @@ public class WicketApplication extends WebApplication
 		
 	}
 	
+	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Item> getActiveItems(Integer CategoryId) {
 		List<Item> Items = null;
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -181,6 +181,7 @@ public class WicketApplication extends WebApplication
 		
 	}
 	
+	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Item> getAllItems(Integer CategoryId) {
 		List<Item> Items = null;
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -207,6 +208,7 @@ public class WicketApplication extends WebApplication
 		
 	}
 
+	@SuppressWarnings("finally")
 	public Item getItem(Integer ItemId) {
 		Item SelectedItem = new Item();
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -231,6 +233,7 @@ public class WicketApplication extends WebApplication
 			}
 	    }
 
+		@SuppressWarnings("finally")
 		public Items_Category getCategory(Integer CategoryId) {
 			Items_Category SelectedCategory = new Items_Category();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -264,7 +267,7 @@ public class WicketApplication extends WebApplication
 				tx = session.beginTransaction();
 			    session.save(OrderHeader);
 			    System.out.print(OrderHeader.getOrderid());
-			    Iterator ItemsIterator =  OrderDetails.iterator();
+			    Iterator<?> ItemsIterator =  OrderDetails.iterator();
 			    while(ItemsIterator.hasNext()){
 			    	//System.out.print("On  call " + OrderDetails.size() + "\n");
 			    	Ordered_Items NewItem = (Ordered_Items) ItemsIterator.next();
@@ -283,6 +286,7 @@ public class WicketApplication extends WebApplication
 
 	}
 
+		@SuppressWarnings({ "finally", "unchecked" })
 		public List<Orders> getOrdersFromUsername() {
 			List<Orders> ReturnList = new ArrayList<Orders>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -306,6 +310,7 @@ public class WicketApplication extends WebApplication
 				}
 	}
 		
+		@SuppressWarnings({ "finally", "unchecked" })
 		public List<Ordered_Items> getOrderDetails(Integer OrderId) {
 			List<Ordered_Items> ReturnList = new ArrayList<Ordered_Items>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -327,6 +332,7 @@ public class WicketApplication extends WebApplication
 				}
 	}
 
+		@SuppressWarnings("finally")
 		public Orders getOrderFromId(Integer OrderId) {
 			Orders ReturnOrder = new Orders();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -349,7 +355,7 @@ public class WicketApplication extends WebApplication
 				}
 	}
 		
-		public static Boolean resetPassword(String Username, String newPassword) {
+		public Boolean resetPassword(String Username, String newPassword) {
 			Customer user = new Customer();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
@@ -509,6 +515,7 @@ public class WicketApplication extends WebApplication
 				}
 		}
 
+		@SuppressWarnings({ "finally", "unchecked" })
 		public List<Orders> getAllActiveOrders() {
 			List<Orders> ReturnList = new ArrayList<Orders>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -548,6 +555,7 @@ public class WicketApplication extends WebApplication
 
 		}
 		
+		@SuppressWarnings({ "unchecked", "finally" })
 		public List<Customer> getCustomers() {
 			List<Customer> ReturnList = new ArrayList<Customer>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
@@ -574,7 +582,11 @@ public class WicketApplication extends WebApplication
 
 
 class FolderContentResource implements IResource {
-    private final File rootFolder;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private final File rootFolder;
     
     public FolderContentResource(File rootFolder) {
         this.rootFolder = rootFolder;
