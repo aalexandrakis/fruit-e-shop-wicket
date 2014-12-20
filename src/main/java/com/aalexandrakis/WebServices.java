@@ -229,6 +229,52 @@ public class WebServices {
 			return Response.ok(jsonResponse.toString()).build();
 		}
 	}
+	
+	@SuppressWarnings({ "finally", "unchecked" })
+	@Path("/updateUser")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	public Response updateUser(@FormParam("name") String name, @FormParam("address") String address, @FormParam("city") String city, @FormParam("phone") String phone, 
+							 @FormParam("email") String email, @FormParam("id") String id) {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = session.beginTransaction();
+		JSONObject jsonResponse = new JSONObject();
+		try{
+			String hql = "FROM Customer where email = :email and id <> :userId";
+			Query q = session.createQuery(hql).setString("email", email).setInteger("userId", Integer.valueOf(id));
+			List<Customer> custList = q.list();
+			if (custList.size() > 0){
+				jsonResponse.put("status", "FAILED");
+				jsonResponse.put("message", "This email already exists.");
+			} else {
+				DateFormat df = new SimpleDateFormat("yyyyMMdd");
+				int date = Integer.valueOf(df.format(new Date())); 
+				Customer cust = (Customer) session.get(Customer.class, Integer.valueOf(id));
+				cust.setName(name);
+				cust.setAddress(address);
+				cust.setCity(city);
+				cust.setPhone(phone);
+				cust.setEmail(email);
+				session.saveOrUpdate(cust);
+				tx.commit();
+				jsonResponse.put("status", "SUCCESS");
+				jsonResponse.put("message", "Your account updated successfully.");
+				
+			}
+		} catch (JSONException e){
+			e.printStackTrace();
+			jsonResponse.put("status", "FAILED");
+			jsonResponse.put("message", e.getMessage());
+		} catch (Exception e){
+			e.printStackTrace();
+			jsonResponse.put("status", "FAILED");
+			jsonResponse.put("message", e.getMessage());
+		} finally {			
+			session.close();
+			return Response.ok(jsonResponse.toString()).build();
+		}
+	}
 }
 	
 
