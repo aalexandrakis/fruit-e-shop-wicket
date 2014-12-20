@@ -14,12 +14,13 @@ public class Customer implements java.io.Serializable{
     public Customer() { }
     
     public Customer(Integer customerid, String name, String address, String city,
-    				String phone, String Password, String email, Integer admin, Integer insertdate){
+    				String phone, String password, String email, Integer admin, Integer insertdate){
     	this.customerid = customerid;
     	this.name = name;
     	this.address = address;
     	this.city = city;
     	this.phone = phone;
+    	this.password = password;
     	this.email = email;
     	this.admin = admin;
     	this.insertdate = insertdate;

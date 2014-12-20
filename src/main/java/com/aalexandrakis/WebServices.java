@@ -189,6 +189,7 @@ public class WebServices {
 		return Response.status(500).build();
 	}
 	
+	@SuppressWarnings("finally")
 	@Path("/register")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -215,16 +216,18 @@ public class WebServices {
 				jsonResponse.put("message", "Your registration is completed.");
 				
 			}
-			return Response.ok(jsonResponse.toString()).build();
 		} catch (JSONException e){
 			e.printStackTrace();
+			jsonResponse.put("status", "FAILED");
+			jsonResponse.put("message", e.getMessage());
 		} catch (Exception e){
 			e.printStackTrace();
+			jsonResponse.put("status", "FAILED");
+			jsonResponse.put("message", e.getMessage());
 		} finally {			
 			session.close();
+			return Response.ok(jsonResponse.toString()).build();
 		}
-	
-		return Response.status(500).build();
 	}
 }
 	
