@@ -248,8 +248,6 @@ public class WebServices {
 				jsonResponse.put("status", "FAILED");
 				jsonResponse.put("message", "This email already exists.");
 			} else {
-				DateFormat df = new SimpleDateFormat("yyyyMMdd");
-				int date = Integer.valueOf(df.format(new Date())); 
 				Customer cust = (Customer) session.get(Customer.class, Integer.valueOf(id));
 				cust.setName(name);
 				cust.setAddress(address);
@@ -262,6 +260,36 @@ public class WebServices {
 				jsonResponse.put("message", "Your account updated successfully.");
 				
 			}
+		} catch (JSONException e){
+			e.printStackTrace();
+			jsonResponse.put("status", "FAILED");
+			jsonResponse.put("message", e.getMessage());
+		} catch (Exception e){
+			e.printStackTrace();
+			jsonResponse.put("status", "FAILED");
+			jsonResponse.put("message", e.getMessage());
+		} finally {			
+			session.close();
+			return Response.ok(jsonResponse.toString()).build();
+		}
+	}
+	
+	@SuppressWarnings({ "finally"})
+	@Path("/updatePassword")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	public Response updatePassword(@FormParam("id") String id, @FormParam("password") String password) {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = session.beginTransaction();
+		JSONObject jsonResponse = new JSONObject();
+		try{
+			Customer cust = (Customer) session.get(Customer.class, Integer.valueOf(id));
+			cust.setPassword(password);
+			session.saveOrUpdate(cust);
+			tx.commit();
+			jsonResponse.put("status", "SUCCESS");
+			jsonResponse.put("message", "Your account updated successfully.");
 		} catch (JSONException e){
 			e.printStackTrace();
 			jsonResponse.put("status", "FAILED");
