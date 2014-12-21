@@ -26,4 +26,14 @@
 <servlet-name>Jersey REST Service</servlet-name>
 <url-pattern>/rest/*</url-pattern>
 </servlet-mapping>
+
+<servlet>
+    <servlet-name>CompleteOrder</servlet-name>
+    <servlet-class>com.aalexandrakis.CompleteOrder</servlet-class>
+</servlet>
+<servlet-mapping>
+    <servlet-name>CompleteOrder</servlet-name>
+    <url-pattern>/completeOrder</url-pattern>
+</servlet-mapping>
+
 </web-app>

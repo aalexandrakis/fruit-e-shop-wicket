@@ -303,6 +303,32 @@ public class WebServices {
 			return Response.ok(jsonResponse.toString()).build();
 		}
 	}
+	
+	@SuppressWarnings({ "finally"})
+	@Path("/contactUs")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
+	public Response contactUs(@FormParam("email") String email, @FormParam("subject") String subject, @FormParam("content") String content) {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = session.beginTransaction();
+		JSONObject jsonResponse = new JSONObject();
+		try{
+			content = "Message from " + email + "\r\n" + content;
+			if (WicketApplication.SendMail(System.getenv("HOTMAIL"), subject, content)){
+				jsonResponse.put("status", "SUCCESS");
+				jsonResponse.put("message", "Your message sent successfully. We will response as soon as possible.");	
+			} else {
+				jsonResponse.put("status", "FAILED");
+				jsonResponse.put("message", "Your message was not sent because of an internal error. Please try again later.");
+			}
+		} catch (JSONException e){
+			e.printStackTrace();
+			jsonResponse.put("FAILED", e.getMessage());
+		} finally {
+			return Response.ok(jsonResponse.toString()).build();
+		}
+	}
 }
 	
 
