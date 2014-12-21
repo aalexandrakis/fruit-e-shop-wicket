@@ -1,8 +1,7 @@
-target/classes/
+target/
 .project
 .classpath
 .setings/
 .idea/
 /fruitShopWicket.iml
 *.class
-/target
