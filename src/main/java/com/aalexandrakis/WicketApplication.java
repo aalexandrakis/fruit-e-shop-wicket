@@ -399,7 +399,7 @@ public class WicketApplication extends WebApplication
 	            {  return new PasswordAuthentication(System.getenv("HOTMAIL"), System.getenv("HOTMAIL_PASSWORD"));
 	             }
 	         });
-		    session.setDebug(true);
+		    session.setDebug(false);
 		    Transport trans = null;
 			try {
 				trans = session.getTransport("smtp");
