@@ -35,12 +35,12 @@ public class CompleteOrder extends HttpServlet{
      protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
         System.out.println("POST called");
-//        for (Object object : req.getParameterMap().keySet()){
-//        	if (object instanceof String){
-//	        	String key = (String) object;
-//	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
-//        	}
-//        }
+        for (Object object : req.getParameterMap().keySet()){
+        	if (object instanceof String){
+	        	String key = (String) object;
+	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
+        	}
+        }
         if (req.getParameter("payment_status").equals("Completed")){
         	writeOrder(req);
         } else {
