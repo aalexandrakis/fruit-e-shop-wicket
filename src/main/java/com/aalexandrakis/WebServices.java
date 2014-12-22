@@ -175,7 +175,7 @@ public class WebServices {
 		try {
 			if (!WicketApplication.get().resetPassword(email, newPassword)){
 				jsonResponse.put("status", "FAILED");
-				jsonResponse.put("message", "Reset password failed because of an internal error. Please try later");
+				jsonResponse.put("message", "Reset password failed. Your email is not correct.");
 			} else {
 				jsonResponse.put("status", "SUCCESS");
 				jsonResponse.put("message", "Password changed succesfully");	

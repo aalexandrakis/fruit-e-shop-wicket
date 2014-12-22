@@ -9,6 +9,7 @@ public class Orders implements java.io.Serializable{
     private String username;
     private Integer status;
     private String txn_id;
+    private int custid;
     
     public Orders() { }
     
@@ -20,7 +21,17 @@ public class Orders implements java.io.Serializable{
     	this.username = username;
     	this.status = status;
     	this.txn_id = txn_id;
-    	
+    }
+
+    public Orders(Integer orderid, Date date, Float ammount, String username,
+    			Integer status, String txn_id, int custid) {
+    	this.orderid = orderid;
+    	this.date = date;
+    	this.ammount = ammount;
+    	this.username = username;
+    	this.status = status;
+    	this.txn_id = txn_id;
+    	this.custid = custid;
     }
     
     public Integer getOrderid(){
@@ -59,4 +70,20 @@ public class Orders implements java.io.Serializable{
     public void setTxn_id(String txn_id){
     	this.txn_id = txn_id;
     }
+
+	public int getCustid() {
+		return custid;
+	}
+
+	public void setCustid(int custid) {
+		this.custid = custid;
+	}
+
+	@Override
+	public String toString() {
+		return "Orders [orderid=" + orderid + ", date=" + date + ", ammount="
+				+ ammount + ", username=" + username + ", status=" + status
+				+ ", txn_id=" + txn_id + ", custid=" + custid + "]";
+	}
+	
 }

@@ -365,6 +365,9 @@ public class WicketApplication extends WebApplication
 				String hql = "From Customer where email=:username";
 				Query q = session.createQuery(hql)
 						  .setParameter("username", Username);
+				if (q.list().size() == 0){
+					return false;
+				}
 				user = (Customer) q.list().get(0);
 				user.setPassword(Sha1.getHash(newPassword));
 				session.update(user);

@@ -24,5 +24,9 @@
         <property name="status" type="java.lang.Integer">
             <column name="STATUS" />
         </property>
+            <property name="custid" type="java.lang.Integer">
+            <column name="CUSTID" />
+        </property>
+        
     </class>
 </hibernate-mapping>

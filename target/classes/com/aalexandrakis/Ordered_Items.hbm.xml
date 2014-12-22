@@ -18,5 +18,9 @@
         <property name="price" type="java.lang.Float">
             <column name="PRICE" />
         </property>
+        <property name="amount" type="java.lang.Float">
+            <column name="AMOUNT" />
+        </property>
+        
     </class>
 </hibernate-mapping>

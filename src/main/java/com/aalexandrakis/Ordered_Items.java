@@ -5,6 +5,7 @@ public class Ordered_Items implements java.io.Serializable{
 	private Integer itemid;
     private Float quantity;
     private Float price;
+    private Float amount;
     
     public Ordered_Items() { }
     
@@ -15,7 +16,23 @@ public class Ordered_Items implements java.io.Serializable{
     	this.price = price;
     	
     }
+
+    @Override
+	public String toString() {
+		return "Ordered_Items [orderid=" + orderid + ", itemid=" + itemid
+				+ ", quantity=" + quantity + ", price=" + price + ", amount="
+				+ amount + "]";
+	}
+
+	public Ordered_Items(Integer orderid, Integer itemid, Float quantity, Float price, Float amount) {
+    	this.orderid = orderid;
+    	this.itemid = itemid;
+    	this.quantity = quantity;
+    	this.price = price;
+    	this.amount = amount;
+    }
     
+
     public Integer getOrderid(){
     	return this.orderid;
     }
@@ -40,4 +57,13 @@ public class Ordered_Items implements java.io.Serializable{
     public void setPrice(Float price){
     	this.price = price;
     }
+
+	public Float getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Float amount) {
+		this.amount = amount;
+	}
+    
 }
