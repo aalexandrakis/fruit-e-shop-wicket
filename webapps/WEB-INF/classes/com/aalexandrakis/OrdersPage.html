@@ -1,0 +1,31 @@
+<wicket:extend>
+<h3 wicket:id="PageHeader">Το καλάθι μου</h3>
+<div style="clear:both;">
+	<table>
+	<tr>
+		<th wicket:id="orderidHeader"></th>
+		<th wicket:id="orderdateHeader"></th>
+		<th wicket:id="amountHeader"></th>
+		<th wicket:id="statusHeader"></th>
+		<th wicket:id="emailHeader"></th>
+		<th wicket:id="paypalHeader"></th>
+		<th wicket:id="detailsHeader"></th>
+	</tr>
+	<tbody>
+		<tr wicket:id="orders">
+			<td> <span wicket:id="orderid"></span></td>
+			<td> <span wicket:id="date"></span></td>
+			<td> &euro;<span wicket:id="ammount"></span></td>
+			<td> <span wicket:id="statusDesc"></span></td>
+			<td wicket:id="email"></td>
+			<td wicket:id="txn_id"></td>
+			<td> <a href="#" wicket:id="details" class="itemlink">
+			      	<span wicket:id="detailHeader"></span>
+			      </a>
+			</td>
+		</tr>
+	</tbody>
+	</table>
+</div>
+</wicket:extend>
+

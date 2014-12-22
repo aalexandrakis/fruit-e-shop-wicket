@@ -1,0 +1,46 @@
+<wicket:extend>
+<br>
+<form wicket:id="BuyNow" name="BuyNow">
+<div wicket:id="feedback" class="feedback"></div> 
+       <table>
+         <tr>
+		    <td>
+				<img wicket:id="ItemPhoto" alt="Item Photo" height="300" width="300">
+	    	</td>
+            <td>
+	       		<table>
+		       		<tr>
+		         		<td wicket:id="ItemIdHeader"> </td>
+		         		<td><input type="text" wicket:id="itemid" readonly=true/></td>
+		       		</tr>
+		       		<tr>
+		         		<td wicket:id="ItemDescrHeader"></td>
+		         		<td> <input type="text" wicket:id="descr" readonly=true/></td>
+		       		</tr>
+		       		<tr>
+		         		<td wicket:id="ItemCatHeader">  </td>
+		         		<td> <input type="text" wicket:id="ItemCat" readonly=true/></td>
+		       		</tr>
+		       		<tr>
+		         		<td wicket:id="ItemMmHeader"> </td>
+		         		<td> <input type="text" wicket:id="mm" readonly=true/></td>
+		       		</tr>
+		       		<tr>
+		         		<td wicket:id="ItemPriceHeader"></td>
+		         		<td> <input type="number" wicket:id="price" readonly=true style="text-align:right;"/></td>
+		       		</tr>
+		       		<tr>
+		         		<td wicket:id="QuantityHeader"> </td>
+		         		<td> <input type="number"  wicket:id="quantity" style="text-align:right;"/></td>
+		       		</tr>
+		       		<tr>
+                     	<td>
+		             		<a href="#" wicket:id="AddToCart"><img wicket:id="AddToCartButton" style="border-style: none;"/></a>
+                         </td>
+                     </tr>   	
+  	      		</table>
+            </td>
+         </tr>
+       </table>
+     </form>  
+</wicket:extend>

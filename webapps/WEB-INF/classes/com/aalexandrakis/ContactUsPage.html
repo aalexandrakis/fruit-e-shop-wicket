@@ -1,0 +1,29 @@
+<wicket:extend>
+   <form wicket:id="ContactUsForm">
+   <br>
+    <div class="contents" width="100%" >
+   	<h3 wicket:id="HeaderPage"></h3>
+   	<h3 wicket:id="EmailHeader"></h3>
+	<span wicket:id="BussinessEmail"></span>
+  	<h3 wicket:id="PhonesHeader"></h3>
+  	<span wicket:id="Phones"></span>
+    </div>
+      <span  wicket:id="SendUsAMessage" style="margin-left:3px;font-weight: bold"></span>
+      <table>
+        <tr>
+          <th wicket:id="YoursEmailHeader">  </th>
+          <td> <input type="text" wicket:id="YoursEmail" size="50"/> </td>
+        </tr>
+        <tr>
+          <th wicket:id="SubjectHeader"> Subject </th>
+          <td> <input type="text" wicket:id="Subject" size="50" /> </td>
+        </tr> 
+        <tr>
+          <th wicket:id="MessageHeader"> </th>
+          <td> <TEXTAREA wicket:id="Message" ROWS=5 COLS=50></textarea> </td>
+        </tr>
+      </table>   
+      <br> 
+      <input type="submit" wicket:id="SendIt" />
+      </form>
+</wicket:extend>

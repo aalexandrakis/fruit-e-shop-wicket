@@ -1,0 +1,17 @@
+<wicket:extend>
+<br>
+	<div style="float: left;border:  1px solid black;width:20%">
+		<div wicket:id="CategoriesPanel"></div>
+		<br>
+		<form name="dumpform"><input type="submit" wicket:id="AddNewButton"/></form>
+	</div>
+	<div style="float: right;width: 78%;text-align:left">
+	   <form wicket:id="CategoryForm">
+	     <input type="text" wicket:id="categoryid" size=10 readonly="true"/>
+	     <br>
+	     <input type="text" wicket:id="category" size=50/>
+	     <br>
+	     <input type="submit" wicket:id="AddOrUpdate"/>
+	   </form> 
+	</div>
+</wicket:extend>
