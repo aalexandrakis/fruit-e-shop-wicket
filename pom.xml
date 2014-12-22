@@ -239,9 +239,9 @@
             <configuration>
                 <failOnMissingWebXml>false</failOnMissingWebXml>
            <!--     <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory> -->
-                <webappDirectory>webapps</webappDirectory>  
-                <!-- <warName>${project.artifactId}</warName> -->
-                <warName>fruitShop</warName>
+           <!-- <warName>${project.artifactId}</warName> -->
+                <webappDirectory>webapps</webappDirectory>
+                <warName>ROOT</warName>
                 <archive>
                     <addMavenDescriptor>false</addMavenDescriptor>
                     <manifest>
