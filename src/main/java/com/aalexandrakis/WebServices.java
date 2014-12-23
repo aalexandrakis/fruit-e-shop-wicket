@@ -1,38 +1,19 @@
 package com.aalexandrakis;
 
-import java.io.BufferedOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.activation.MimeType;
 import javax.jws.WebService;
-import javax.mail.internet.MimeMultipart;
-import javax.swing.text.DateFormatter;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.ResponseBuilder;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.stream.XMLOutputFactory;
-import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamWriter;
-import javax.xml.transform.Result;
 
 import org.apache.wicket.ajax.json.JSONException;
 import org.apache.wicket.ajax.json.JSONObject;
@@ -40,7 +21,6 @@ import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.engine.jdbc.spi.SqlExceptionHelper;
 
 
 @WebService
@@ -59,6 +39,7 @@ public class WebServices {
 	}
 
 	
+	@SuppressWarnings("unchecked")
 	@Path("/login")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -106,6 +87,7 @@ public class WebServices {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Path("/getCategories")
 	@GET
 	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
@@ -136,6 +118,7 @@ public class WebServices {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Path("/getItems/{catId}")
 	@GET
 	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
@@ -189,7 +172,7 @@ public class WebServices {
 		return Response.status(500).build();
 	}
 	
-	@SuppressWarnings("finally")
+	@SuppressWarnings({ "finally", "unchecked" })
 	@Path("/register")
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
@@ -309,9 +292,6 @@ public class WebServices {
 	@POST
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response contactUs(@FormParam("email") String email, @FormParam("subject") String subject, @FormParam("content") String content) {
-		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-		org.hibernate.Session session = sf.openSession(); 
-		Transaction tx = session.beginTransaction();
 		JSONObject jsonResponse = new JSONObject();
 		try{
 			content = "Message from " + email + "\r\n" + content;
@@ -329,6 +309,67 @@ public class WebServices {
 			return Response.ok(jsonResponse.toString()).build();
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Path("/getOrders/{custId}")
+	@GET
+	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
+	public Response getOrders(@PathParam("custId") int custId) {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = null;
+		try{ 
+			tx = session.beginTransaction();
+			String hql = "From Order where custid = :custId";
+			Query q = session.createQuery(hql).setInteger("custId", custId);
+			List<Order> resultList = q.list();
+			
+            //DebugString = q.getQueryString()										
+			if (resultList.isEmpty()){
+				return Response.ok(null).build();
+			} else {
+				Orders orders = new Orders(resultList);
+				return Response.ok(orders).build();
+			}
+	    } catch (HibernateException e) { 
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+	    } finally { 
+			((org.hibernate.Session) session).close(); 
+		}
+		return Response.status(500).build();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Path("/getOrder/{orderId}")
+	@GET
+	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
+	public Response getOrder(@PathParam("orderId") int orderId) {
+		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+		org.hibernate.Session session = sf.openSession(); 
+		Transaction tx = null;
+		try{ 
+			tx = session.beginTransaction();
+			String hql = "From OrderedItem where orderid = :orderId";
+			Query q = session.createQuery(hql).setInteger("orderId", orderId);
+			List<OrderedItem> resultList = q.list();
+			
+            //DebugString = q.getQueryString()										
+			if (resultList.isEmpty()){
+				return Response.ok(null).build();
+			} else {
+				OrderedItems orderedItems = new OrderedItems(resultList);
+				return Response.ok(orderedItems).build();
+			}
+	    } catch (HibernateException e) { 
+			if (tx!=null) tx.rollback();
+			e.printStackTrace();
+	    } finally { 
+			((org.hibernate.Session) session).close(); 
+		}
+		return Response.status(500).build();
+	}
+	
 }
 	
 
