@@ -66,8 +66,8 @@ public class BasePage extends WebPage {
 		return FruitShopSession.get();
 	}
    
-	public Boolean AddNewOrder(Order OrderHeader, ArrayList<OrderedItem> OrderDetails){
-		    return WicketApplication.get().AddNewOrder(OrderHeader, OrderDetails);
+	public Boolean addNewOrder(Order OrderHeader, ArrayList<OrderedItem> OrderDetails){
+		    return WicketApplication.get().addNewOrder(OrderHeader, OrderDetails);
 	}
 	
 	public List<Order> getOrdersFromUsername() {

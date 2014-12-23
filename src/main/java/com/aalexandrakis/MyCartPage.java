@@ -28,6 +28,7 @@ public class MyCartPage extends BasePage {
 
 	} 
 	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void construct(){
 		//removeAll();
 		add(new Label("PageHeader", "Το καλάθι μου"));
@@ -41,6 +42,11 @@ public class MyCartPage extends BasePage {
 		add(new Label("removeHeader", "Διαγραφή"));
 		
 		add(new ListView("cart", new PropertyModel(this, "CartList")) {
+		/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 		@Override
 		protected void populateItem(ListItem item) {
 			Cart_Item cartitem = (Cart_Item) item.getModelObject();
@@ -53,6 +59,11 @@ public class MyCartPage extends BasePage {
 			item.add(new Label("summary",  cartitem.getSummary()));
 			//item.add(removeLink("remove", item));
 			Link RemoveLink = new Link("remove", item.getModel()){
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				public void onClick() {
 					// TODO Auto-generated method stub
@@ -73,6 +84,11 @@ public class MyCartPage extends BasePage {
 		add(new Label("total", new Model(FruitShopSession.get().CalcCart())));
 		
 		Link EmptyLink = new Link("EmptyLink"){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void onClick() {
 				// TODO Auto-generated method stub
@@ -91,13 +107,14 @@ public class MyCartPage extends BasePage {
 		
 		
 		Link PayLink = new Link("PayLink"){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			@Override
 			public void onClick() {
 				// TODO Auto-generated method stub
-				    if(WriteOrder()){
-				    	String sbj = "Νέα παραγγελία";
-				    	String msg = "Νέα παραγγελία από τον χρήστη " + FruitShopSession.get().getUsername();
-				    	SendMail(bussiness_email, sbj, msg);
+				    if(writeOrder()){
 				    	FruitShopSession.get().getCart().clear();
 				    	CartList.clear();
 				    }
@@ -132,7 +149,7 @@ public class MyCartPage extends BasePage {
 		}
 	}
 	
-	private Boolean WriteOrder(){
+	private Boolean writeOrder(){
 		Order NewOrder = new Order();
 		ArrayList<OrderedItem> NewOrderedItems = new ArrayList<OrderedItem>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -156,9 +173,23 @@ public class MyCartPage extends BasePage {
 		NewOrder.setAmmount(FruitShopSession.get().CalcCart());
 		NewOrder.setDate(date);
 		NewOrder.setStatus(0);
-		NewOrder.setTxn_id("");
-		NewOrder.setUsername(FruitShopSession.get().getUsername());
+		NewOrder.setTxn_id("PAY ON DELIVERY");
+//		NewOrder.setUsername(FruitShopSession.get().getUsername());
+		NewOrder.setUsername("");
+		NewOrder.setCustid(FruitShopSession.get().getCurrentUser().getCustomerId());
 		
-		return AddNewOrder(NewOrder, NewOrderedItems);
+		if (addNewOrder(NewOrder, NewOrderedItems)){
+			String sbj = "WEB - New order from " + FruitShopSession.get().getUsername();
+	    	StringBuilder msg = new StringBuilder();
+	    	msg.append(NewOrder.toString() + "\n");
+	    	for (OrderedItem item : NewOrderedItems){
+	    		msg.append(item.toString() + "\n");
+	    	}
+	    	SendMail(System.getenv("HOTMAIL"), sbj, msg.toString());
+	    	SendMail(FruitShopSession.get().getUsername(), "Your order have been placed", msg.toString());
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

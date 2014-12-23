@@ -259,19 +259,20 @@ public class WicketApplication extends WebApplication
 
 	}
 		
-		public Boolean AddNewOrder(Order OrderHeader, ArrayList<OrderedItem> OrderDetails) {
+		public Boolean addNewOrder(Order OrderHeader, ArrayList<OrderedItem> OrderDetails) {
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;
 			try{ 
 				tx = session.beginTransaction();
 			    session.save(OrderHeader);
-			    System.out.print(OrderHeader.getOrderid());
+//			    System.out.print(OrderHeader.getOrderid());
 			    Iterator<?> ItemsIterator =  OrderDetails.iterator();
 			    while(ItemsIterator.hasNext()){
 			    	//System.out.print("On  call " + OrderDetails.size() + "\n");
 			    	OrderedItem NewItem = (OrderedItem) ItemsIterator.next();
 			    	NewItem.setOrderid(OrderHeader.getOrderid());
+			    	NewItem.setAmount(NewItem.getQuantity() * NewItem.getPrice());
 			    	session.save(NewItem);
 			    }
 			    tx.commit();
