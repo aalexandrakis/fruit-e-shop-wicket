@@ -6,8 +6,10 @@ public class OrderedItem implements java.io.Serializable{
     private Float quantity;
     private Float price;
     private Float amount;
-    
-    public OrderedItem() { }
+    private String descr;
+    private String mm;
+   
+	public OrderedItem() { }
     
     public OrderedItem(Integer orderid, Integer itemid, Float quantity, Float price) {
     	this.orderid = orderid;
@@ -66,4 +68,19 @@ public class OrderedItem implements java.io.Serializable{
 		this.amount = amount;
 	}
     
+	 public String getDescr() {
+			return this.descr;
+	}
+
+	public void setDescr(String descr) {
+		this.descr = descr;
+	}
+
+	public String getMm() {
+		return mm;
+	}
+
+	public void setMm(String mm) {
+		this.mm = mm;
+	}	
 }

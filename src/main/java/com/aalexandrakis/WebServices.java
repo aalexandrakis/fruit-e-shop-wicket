@@ -341,10 +341,10 @@ public class WebServices {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@Path("/getOrder/{orderId}")
+	@Path("/getOrderItems/{orderId}")
 	@GET
 	@Produces(MediaType.APPLICATION_XML + "; charset=UTF-8")
-	public Response getOrder(@PathParam("orderId") int orderId) {
+	public Response getOrderItems(@PathParam("orderId") int orderId) {
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 		org.hibernate.Session session = sf.openSession(); 
 		Transaction tx = null;
@@ -353,7 +353,11 @@ public class WebServices {
 			String hql = "From OrderedItem where orderid = :orderId";
 			Query q = session.createQuery(hql).setInteger("orderId", orderId);
 			List<OrderedItem> resultList = q.list();
-			
+			for (OrderedItem oItem : resultList){
+				Item item = (Item) session.get(Item.class, oItem.getItemid());
+				oItem.setDescr(item.getDescr());
+				oItem.setMm(item.getMm());
+			}
             //DebugString = q.getQueryString()										
 			if (resultList.isEmpty()){
 				return Response.ok(null).build();
