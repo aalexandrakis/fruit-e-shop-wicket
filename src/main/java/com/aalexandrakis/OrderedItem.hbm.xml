@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated Sep 23, 2013 3:13:26 AM by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.aalexandrakis.Ordered_Items" table="ordered_items">
+    <class name="com.aalexandrakis.OrderedItem" table="ordered_items">
         <composite-id>
         	<key-property name="orderid" type="java.lang.Integer">
             	<column name="ORDERID" />

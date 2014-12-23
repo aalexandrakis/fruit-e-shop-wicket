@@ -21,7 +21,6 @@ public class CompleteOrder extends HttpServlet{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	 DateFormat df = new SimpleDateFormat("yyyyMMdd");
 	 
 	 @Override
      protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -82,7 +81,7 @@ public class CompleteOrder extends HttpServlet{
 		}
 		int custId = Integer.valueOf(req.getParameter("custom"));
 		StringBuilder msg = new StringBuilder();
-		Orders order = new Orders(null, new Date(), Float.valueOf(req.getParameter("mc_gross")), "", 0, req.getParameter("txn_id"), custId);
+		Order order = new Order(null, new Date(), Float.valueOf(req.getParameter("mc_gross")), "", 0, req.getParameter("txn_id"), custId);
 		Session session = HibarnateUtil.getSessionFactory().openSession();
 		Transaction tx = session.beginTransaction();
 		try {
@@ -90,7 +89,7 @@ public class CompleteOrder extends HttpServlet{
 			msg.append(order.toString() + "\n");
 			for (CartItem cartItem : cart){
 				float price = cartItem.getMcGross() / cartItem.getQuantity();
-				Ordered_Items orderedItem = new Ordered_Items(order.getOrderid(), 
+				OrderedItem orderedItem = new OrderedItem(order.getOrderid(), 
 															  cartItem.getItem().getItemid(),
 															  cartItem.getQuantity(), 
 															  price,

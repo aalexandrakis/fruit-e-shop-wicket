@@ -133,14 +133,14 @@ public class MyCartPage extends BasePage {
 	}
 	
 	private Boolean WriteOrder(){
-		Orders NewOrder = new Orders();
-		ArrayList<Ordered_Items> NewOrderedItems = new ArrayList<Ordered_Items>();
+		Order NewOrder = new Order();
+		ArrayList<OrderedItem> NewOrderedItems = new ArrayList<OrderedItem>();
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		
 		/* Create detail records */
 		Iterator CartIterator = FruitShopSession.get().getCart().iterator();
 		while (CartIterator.hasNext()){
-			Ordered_Items OrderedItem = new Ordered_Items();
+			OrderedItem OrderedItem = new OrderedItem();
 			Cart_Item CartItem = new Cart_Item();
 			CartItem = (Cart_Item) CartIterator.next();
 			OrderedItem.setItemid(CartItem.getItemid());

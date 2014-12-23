@@ -66,19 +66,19 @@ public class BasePage extends WebPage {
 		return FruitShopSession.get();
 	}
    
-	public Boolean AddNewOrder(Orders OrderHeader, ArrayList<Ordered_Items> OrderDetails){
+	public Boolean AddNewOrder(Order OrderHeader, ArrayList<OrderedItem> OrderDetails){
 		    return WicketApplication.get().AddNewOrder(OrderHeader, OrderDetails);
 	}
 	
-	public List<Orders> getOrdersFromUsername() {
+	public List<Order> getOrdersFromUsername() {
 		return WicketApplication.get().getOrdersFromUsername();
 	}
 	
-	public List<Ordered_Items> getOrderDetails(Integer OrderId) {
+	public List<OrderedItem> getOrderDetails(Integer OrderId) {
 		return WicketApplication.get().getOrderDetails(OrderId);
 	}
 	
-	public Orders getOrderFromId(Integer OrderId) {
+	public Order getOrderFromId(Integer OrderId) {
 		return WicketApplication.get().getOrderFromId(OrderId);
 	}
 	
@@ -122,11 +122,11 @@ public class BasePage extends WebPage {
 		return WicketApplication.get().SendMail(eml, sbj, msg);
 	}
 	
-	public List<Orders> getAllActiveOrders() {
+	public List<Order> getAllActiveOrders() {
 		return WicketApplication.get().getAllActiveOrders();
 	}
 	
-	public Boolean UpdateOrder(Orders Order) {
+	public Boolean UpdateOrder(Order Order) {
 		return WicketApplication.get().UpdateOrder(Order);
 	}
 	

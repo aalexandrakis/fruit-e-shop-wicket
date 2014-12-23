@@ -1,15 +1,15 @@
 package com.aalexandrakis;
 
-public class Ordered_Items implements java.io.Serializable{
+public class OrderedItem implements java.io.Serializable{
 	private Integer orderid;
 	private Integer itemid;
     private Float quantity;
     private Float price;
     private Float amount;
     
-    public Ordered_Items() { }
+    public OrderedItem() { }
     
-    public Ordered_Items(Integer orderid, Integer itemid, Float quantity, Float price) {
+    public OrderedItem(Integer orderid, Integer itemid, Float quantity, Float price) {
     	this.orderid = orderid;
     	this.itemid = itemid;
     	this.quantity = quantity;
@@ -24,7 +24,7 @@ public class Ordered_Items implements java.io.Serializable{
 				+ amount + "]";
 	}
 
-	public Ordered_Items(Integer orderid, Integer itemid, Float quantity, Float price, Float amount) {
+	public OrderedItem(Integer orderid, Integer itemid, Float quantity, Float price, Float amount) {
     	this.orderid = orderid;
     	this.itemid = itemid;
     	this.quantity = quantity;

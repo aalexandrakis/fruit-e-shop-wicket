@@ -2,7 +2,10 @@ package com.aalexandrakis;
 
 import java.util.Date;
 
-public class Orders implements java.io.Serializable{
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name="order")
+public class Order implements java.io.Serializable{
 	private Integer orderid;
 	private Date date;
     private Float ammount;
@@ -11,9 +14,9 @@ public class Orders implements java.io.Serializable{
     private String txn_id;
     private int custid;
     
-    public Orders() { }
+    public Order() { }
     
-    public Orders(Integer orderid, Date date, Float ammount, String username,
+    public Order(Integer orderid, Date date, Float ammount, String username,
     			Integer status, String txn_id) {
     	this.orderid = orderid;
     	this.date = date;
@@ -23,7 +26,7 @@ public class Orders implements java.io.Serializable{
     	this.txn_id = txn_id;
     }
 
-    public Orders(Integer orderid, Date date, Float ammount, String username,
+    public Order(Integer orderid, Date date, Float ammount, String username,
     			Integer status, String txn_id, int custid) {
     	this.orderid = orderid;
     	this.date = date;

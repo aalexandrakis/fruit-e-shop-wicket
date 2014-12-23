@@ -259,7 +259,7 @@ public class WicketApplication extends WebApplication
 
 	}
 		
-		public Boolean AddNewOrder(Orders OrderHeader, ArrayList<Ordered_Items> OrderDetails) {
+		public Boolean AddNewOrder(Order OrderHeader, ArrayList<OrderedItem> OrderDetails) {
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;
@@ -270,7 +270,7 @@ public class WicketApplication extends WebApplication
 			    Iterator<?> ItemsIterator =  OrderDetails.iterator();
 			    while(ItemsIterator.hasNext()){
 			    	//System.out.print("On  call " + OrderDetails.size() + "\n");
-			    	Ordered_Items NewItem = (Ordered_Items) ItemsIterator.next();
+			    	OrderedItem NewItem = (OrderedItem) ItemsIterator.next();
 			    	NewItem.setOrderid(OrderHeader.getOrderid());
 			    	session.save(NewItem);
 			    }
@@ -287,14 +287,14 @@ public class WicketApplication extends WebApplication
 	}
 
 		@SuppressWarnings({ "finally", "unchecked" })
-		public List<Orders> getOrdersFromUsername() {
-			List<Orders> ReturnList = new ArrayList<Orders>();
+		public List<Order> getOrdersFromUsername() {
+			List<Order> ReturnList = new ArrayList<Order>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;
 			try{ 
 				tx = session.beginTransaction();
-				String hql = "From Orders where username=:username";
+				String hql = "From Order where username=:username";
 				Query q = session.createQuery(hql)
 						  .setParameter("username", 
 								  FruitShopSession.get().getUsername());
@@ -311,14 +311,14 @@ public class WicketApplication extends WebApplication
 	}
 		
 		@SuppressWarnings({ "finally", "unchecked" })
-		public List<Ordered_Items> getOrderDetails(Integer OrderId) {
-			List<Ordered_Items> ReturnList = new ArrayList<Ordered_Items>();
+		public List<OrderedItem> getOrderDetails(Integer OrderId) {
+			List<OrderedItem> ReturnList = new ArrayList<OrderedItem>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;
 			try{ 
 				tx = session.beginTransaction();
-				String hql = "From Ordered_Items where orderid=:orderid";
+				String hql = "From OrderedItem where orderid=:orderid";
 				Query q = session.createQuery(hql)
 						  .setParameter("orderid", OrderId); 
 				tx.commit();
@@ -333,18 +333,18 @@ public class WicketApplication extends WebApplication
 	}
 
 		@SuppressWarnings("finally")
-		public Orders getOrderFromId(Integer OrderId) {
-			Orders ReturnOrder = new Orders();
+		public Order getOrderFromId(Integer OrderId) {
+			Order ReturnOrder = new Order();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;
 			try{ 
 				tx = session.beginTransaction();
-				String hql = "From Orders where orderid=:orderid";
+				String hql = "From Order where orderid=:orderid";
 				Query q = session.createQuery(hql)
 						  .setParameter("orderid", OrderId); 
 				tx.commit();
-				ReturnOrder = (Orders) q.list().get(0);
+				ReturnOrder = (Order) q.list().get(0);
 				
 			    } catch (HibernateException e) { 
 					if (tx!=null) tx.rollback();
@@ -519,14 +519,14 @@ public class WicketApplication extends WebApplication
 		}
 
 		@SuppressWarnings({ "finally", "unchecked" })
-		public List<Orders> getAllActiveOrders() {
-			List<Orders> ReturnList = new ArrayList<Orders>();
+		public List<Order> getAllActiveOrders() {
+			List<Order> ReturnList = new ArrayList<Order>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;
 			try{ 
 				tx = session.beginTransaction();
-				String hql = "From Orders where status < 4 order by date";
+				String hql = "From Order where status < 4 order by date";
 				Query q = session.createQuery(hql);
 				tx.commit();
 				ReturnList = q.list();
@@ -538,7 +538,7 @@ public class WicketApplication extends WebApplication
 					return ReturnList;
 				}
 	}
-		public Boolean UpdateOrder(Orders Order) {
+		public Boolean UpdateOrder(Order Order) {
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;

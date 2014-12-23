@@ -19,7 +19,7 @@ import org.apache.wicket.model.PropertyModel;
 
 public class OrdersPage extends BasePage {
 	private static final long serialVersionUID = 1L;
-	private List<Orders> ListOrders = new ArrayList<Orders>();
+	private List<Order> ListOrders = new ArrayList<Order>();
 	private Boolean isAdmin;
 	
 	public OrdersPage(final PageParameters parameters) {
@@ -56,7 +56,7 @@ public class OrdersPage extends BasePage {
 		add(new ListView("orders", new PropertyModel(this, "ListOrders")) {
 		@Override
 		protected void populateItem(ListItem item) {
-			Orders order = (Orders) item.getModelObject();
+			Order order = (Order) item.getModelObject();
 			item.add(new Label("orderid", order.getOrderid()));
 			item.add(new Label("date", dateFormatIso.format(order.getDate())));
 			item.add(new Label("ammount", order.getAmmount()));

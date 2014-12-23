@@ -25,8 +25,8 @@ import org.apache.wicket.model.PropertyModel;
 
 public class OrderDetailsPage extends BasePage {
 	private static final long serialVersionUID = 1L;
-	private List<Ordered_Items> OrderedItems = new ArrayList<Ordered_Items>();
-	private Orders Order = new Orders();
+	private List<OrderedItem> OrderedItems = new ArrayList<OrderedItem>();
+	private Order Order = new Order();
 	private String nextStatus = "";
 	private Integer OrderId=0;
 	
@@ -74,7 +74,7 @@ public class OrderDetailsPage extends BasePage {
 		@Override
 		protected void populateItem(ListItem item) {
 			Item CurrentItem = new Item();
-			Ordered_Items OrderedItem = (Ordered_Items) item.getModelObject();
+			OrderedItem OrderedItem = (OrderedItem) item.getModelObject();
 			CurrentItem = getItem(OrderedItem.getItemid());
 			item.add(new Label("itemid", OrderedItem.getItemid()));
 			item.add(new Label("descr", CurrentItem.getDescr()));
