@@ -288,17 +288,17 @@ public class WicketApplication extends WebApplication
 	}
 
 		@SuppressWarnings({ "finally", "unchecked" })
-		public List<Order> getOrdersFromUsername() {
+		public List<Order> getOrdersFromUser() {
 			List<Order> ReturnList = new ArrayList<Order>();
 			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 			org.hibernate.Session session = sf.openSession(); 
 			Transaction tx = null;
 			try{ 
 				tx = session.beginTransaction();
-				String hql = "From Order where username=:username";
+				String hql = "From Order where custid=:custid";
 				Query q = session.createQuery(hql)
-						  .setParameter("username", 
-								  FruitShopSession.get().getUsername());
+						  .setParameter("custid", 
+								  FruitShopSession.get().getCurrentUser().getCustomerId());
 				tx.commit();
 				ReturnList = q.list();
 				
