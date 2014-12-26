@@ -31,6 +31,11 @@ public class BasePage extends WebPage {
 		aboutUsLink.setOutputMarkupId(true);
 		add(aboutUsLink);
 //		
+		BookmarkablePageLink whereWeAreLink = new BookmarkablePageLink("whereWeAreLink",
+				WherePage.class, new PageParameters());
+		whereWeAreLink.setOutputMarkupId(true);
+		add(whereWeAreLink);
+//		
 
 		BookmarkablePageLink contactUsLink = new BookmarkablePageLink("contactUsLink",
 				ContactUsPage.class, new PageParameters());
