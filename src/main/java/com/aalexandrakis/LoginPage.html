@@ -1,0 +1,38 @@
+<wicket:extend>
+        <div class="row" wicket:id="mainDiv">
+	      <div class="col-md-4 col-md-offset-3">
+	        <div class="login-panel panel panel-default" style="margin-top: 0">
+	          <div class="panel-heading">
+	            Login
+	          </div>
+	          <div class=panel-body>
+	            <form class="form-horizontal" wicket:id="form">
+	              <fieldset>
+	                <div class="form-group" id="emailGroup">
+	                  <div class="col-md-12">
+	                    <input class="form-control" placeholder="Email" type="text" wicket:id="email">
+	                    <!-- <div class="control-label" wicket:id="emailError"></div> -->
+	                  </div>
+	                </div>
+	
+	                <div class="form-group" id="passwordGroup">
+	                  <div class="col-md-12">
+	                    <input class="form-control"  placeholder="Password" type="password" wicket:id="password">
+	                    <!-- <div class="control-label" wicket:id="passwordError"></div>-->
+	                  </div>
+	                </div>
+ 	              <div class="form-group">
+	                <div class="col-md-12">
+             	     <input type="submit" class="btn btn-lg btn-block btn-success" value="Sign In" wicket:id="loginButton"></input>
+             	    </div>
+                 </div>
+	                
+	              </fieldset>
+	            </form>
+	          </div>
+	        </div>
+	        <div class="alert alert-danger" wicket:id="errorMessages"></div>
+	      </div>
+	   </div>
+   
+</wicket:extend>

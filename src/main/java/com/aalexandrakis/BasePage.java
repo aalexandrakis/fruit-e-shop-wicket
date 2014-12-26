@@ -3,42 +3,156 @@ package com.aalexandrakis;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-
-
-
-
-
-
-
-
-
-import org.apache.wicket.request.mapper.parameter.PageParameters;
-import org.apache.wicket.request.resource.SharedResourceReference;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebPage;
-import org.apache.wicket.model.Model;
-import org.hibernate.mapping.Array;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.PropertyModel;
+import org.apache.wicket.request.mapper.parameter.PageParameters;
 
 public class BasePage extends WebPage {
 	private static final long serialVersionUID = 1L;
 	protected DateFormat dateFormatIso = new SimpleDateFormat("yyyy-MM-dd");
-	public final String bussiness_email = "aalexandrakis@hotmail.com";
+	public final String bussiness_email = System.getenv("HOTMAIL");
+	public boolean isLoggedIn;
 	
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public BasePage(final PageParameters parameters) {
 		super(parameters);
+		isLoggedIn = !FruitShopSession.get().getUsername().isEmpty();
+		System.out.println("is logged in " + isLoggedIn);
+		System.out.println("username " + FruitShopSession.get().getUsername());
+		AjaxFallbackLink logOutLink = new AjaxFallbackLink("logOutLink"){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick(AjaxRequestTarget arg0) {
+				// TODO Auto-generated method stub
+				FruitShopSession.get().setCurrentUser(new Customer());
+				FruitShopSession.get().setUsername("");
+				setResponsePage(new HomePage(new PageParameters()));
+			}
+			
+		};
+		logOutLink.setVisible(isLoggedIn);
+		logOutLink.setOutputMarkupId(true);
+		add(logOutLink);
+		
+		BookmarkablePageLink logInLink = new BookmarkablePageLink("logInLink",
+				LoginPage.class, new PageParameters());
+//		AjaxLink logInLink = new AjaxLink("logInLink"){
+//
+//			/**
+//			 * 
+//			 */
+//			private static final long serialVersionUID = 1L;
+//
+//			@Override
+//			public void onClick(AjaxRequestTarget arg0) {
+//				// TODO Auto-generated method stub
+//				
+//			}
+//			
+//		};
+		logInLink.setVisible(!isLoggedIn);
+		logInLink.setOutputMarkupId(true);
+		add(logInLink);
+		
+		AjaxLink myAccountLink = new AjaxLink("myAccountLink"){
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick(AjaxRequestTarget arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		myAccountLink.setVisible(isLoggedIn);
+		myAccountLink.setOutputMarkupId(true);
+		add(myAccountLink);
+		
+		AjaxLink resetPasswordLink = new AjaxLink("resetPasswordLink"){
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick(AjaxRequestTarget arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		resetPasswordLink.setVisible(!isLoggedIn);
+		resetPasswordLink.setOutputMarkupId(true);
+		add(resetPasswordLink);
+		
+		AjaxLink signUpLink = new AjaxLink("signUpLink"){
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void onClick(AjaxRequestTarget arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		signUpLink.setVisible(!isLoggedIn);
+		signUpLink.setOutputMarkupId(true);
+		add(signUpLink);
+		
+		List<Items_Category> categories = getCategories();
+		ListView categoriesList = new ListView("categoriesList", new PropertyModel(this, "categories")){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			protected void populateItem(ListItem item) {
+				// TODO Auto-generated method stub
+				Items_Category itemCategory = (Items_Category) item.getModelObject();
+				AjaxLink categoryLink = new AjaxLink("categoryLink"){
+					/**
+					 * 
+					 */
+					private static final long serialVersionUID = 1L;
+					@Override
+					public void onClick(AjaxRequestTarget arg0) {
+						// TODO Auto-generated method stub
+					}					
+				};
+				categoryLink.add(new Label("categoryLabel", itemCategory.getCategory()));
+				item.add(categoryLink);
+			}
+		};
+		add(categoriesList);
 		//this.FSSession = (FruitShopSession)getSession();
 		//add(new Label("version", getApplication().getFrameworkSettings().getVersion()));
-		add (new LoginPanel("Login"));
-		add (new Label("Header2", "Μπακάλικο"));
-		add (new MyCartPanel("CartPanel"));
-        add (new MenuPanel("Menu", getClass().toString()));
+//		add (new LoginPanel("Login"));
+//		add (new Label("Header2", "Μπακάλικο"));
+//		add (new MyCartPanel("CartPanel"));
+//      add (new MenuPanel("Menu", getClass().toString()));
         
 		// TODO Add your page's components here
     }

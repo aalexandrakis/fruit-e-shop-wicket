@@ -42,15 +42,16 @@ public class HomePage extends BasePage {
 		} else {
 			CategoryId=WicketApplication.get().getCategories().get(0).getCategoryid();
 		}
-		CategoriesPanel CatPanel = new CategoriesPanel("CategoriesPanel", getClass(), CategoryId);
-		add (CatPanel);
+//		CategoriesPanel CatPanel = new CategoriesPanel("CategoriesPanel", getClass(), CategoryId);
+//		add (CatPanel);
 		/*****************************************************/
-		if(FruitShopSession.get().getIsAdmin()==null
-				|| FruitShopSession.get().getIsAdmin()==false){
-				ItemsList = getActiveItems(CatPanel.getCategoryId());
-			} else {
-				ItemsList = getAllItems(CatPanel.getCategoryId());
-		}
+//		if(FruitShopSession.get().getIsAdmin()==null
+//				|| FruitShopSession.get().getIsAdmin()==false){
+//				ItemsList = getActiveItems(CatPanel.getCategoryId());
+//			} else {
+//				ItemsList = getAllItems(CatPanel.getCategoryId());
+//		}
+		ItemsList = getActiveItems(2);
 		/*****************************************************/
         add(new Label("ProductsHeader", "Προϊόντα"));
         //add(new Label("CategoryId", CategoryId));
