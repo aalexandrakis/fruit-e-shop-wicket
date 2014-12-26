@@ -80,7 +80,7 @@ public class MenuPanel extends Panel {
 	    	buttons.add( new Menu_Item("Αλλαγή Στοιχείων", AddUpdateUserPage.class));
 	    } else if(!FruitShopSession.get().getUsername().isEmpty()){
 	    	buttons.add( new Menu_Item("Προιόντα", HomePage.class));
-	    	buttons.add( new Menu_Item("Ποιοι είμαστε", WhoPage.class));
+	    	buttons.add( new Menu_Item("Ποιοι είμαστε", AboutUsPage.class));
 	    	buttons.add( new Menu_Item("Που είμαστε", WherePage.class));
 	    	buttons.add( new Menu_Item("Φωτογραφίες", PhotosPage.class));
 	    	buttons.add( new Menu_Item("Επικοινωνία", ContactUsPage.class));
@@ -89,7 +89,7 @@ public class MenuPanel extends Panel {
 	    	buttons.add( new Menu_Item("Αλλάγη Στοιχείων", AddUpdateUserPage.class));
 	    } else {
 	    	buttons.add( new Menu_Item("Προιόντα", HomePage.class));
-	    	buttons.add( new Menu_Item("Ποιοι είμαστε", WhoPage.class));
+	    	buttons.add( new Menu_Item("Ποιοι είμαστε", AboutUsPage.class));
 	    	buttons.add( new Menu_Item("Που είμαστε", WherePage.class));
 	    	buttons.add( new Menu_Item("Φωτογραφίες", PhotosPage.class));
 	    	buttons.add( new Menu_Item("Επικοινωνία", ContactUsPage.class));

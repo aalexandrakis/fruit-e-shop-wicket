@@ -41,7 +41,7 @@ import org.hibernate.Transaction;
  */
 public class WicketApplication extends WebApplication
 {   
-	private String bussiness_email = "aalexandrakis@hotmail.com";
+	private String bussiness_email = System.getenv("HOTMAIL");
 	
 	//public ServletContext context=null; 
 	public String ImagesPath;
@@ -95,6 +95,7 @@ public class WicketApplication extends WebApplication
         // add your configuration here
 	    mountPage("login", 	LoginPage.class);
 	    mountPage("home", HomePage.class);
+	    mountPage("aboutUs", AboutUsPage.class);
 	    
 	}
 
