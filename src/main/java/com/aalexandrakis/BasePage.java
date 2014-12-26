@@ -26,8 +26,11 @@ public class BasePage extends WebPage {
 	public BasePage(final PageParameters parameters) {
 		super(parameters);
 		isLoggedIn = !FruitShopSession.get().getUsername().isEmpty();
-		System.out.println("is logged in " + isLoggedIn);
-		System.out.println("username " + FruitShopSession.get().getUsername());
+		BookmarkablePageLink aboutUsLink = new BookmarkablePageLink("aboutUsLink",
+				AboutUsPage.class, new PageParameters());
+		aboutUsLink.setOutputMarkupId(true);
+		add(aboutUsLink);
+//		
 		AjaxFallbackLink logOutLink = new AjaxFallbackLink("logOutLink"){
 			/**
 			 * 
@@ -49,20 +52,6 @@ public class BasePage extends WebPage {
 		
 		BookmarkablePageLink logInLink = new BookmarkablePageLink("logInLink",
 				LoginPage.class, new PageParameters());
-//		AjaxLink logInLink = new AjaxLink("logInLink"){
-//
-//			/**
-//			 * 
-//			 */
-//			private static final long serialVersionUID = 1L;
-//
-//			@Override
-//			public void onClick(AjaxRequestTarget arg0) {
-//				// TODO Auto-generated method stub
-//				
-//			}
-//			
-//		};
 		logInLink.setVisible(!isLoggedIn);
 		logInLink.setOutputMarkupId(true);
 		add(logInLink);
