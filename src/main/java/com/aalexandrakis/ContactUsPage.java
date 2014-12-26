@@ -7,49 +7,54 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.Model;
 
 public class ContactUsPage extends BasePage {
 	private static final long serialVersionUID = 1L;
-	private TextField YoursMailText = new TextField("YoursEmail", new Model(FruitShopSession.get().getUsername()));
-	private TextField SubjectText = new TextField("Subject", new Model(""));
-	private TextArea MessageText = new TextArea("Message", new Model(""));    
+	private TextField yoursMailText = new TextField("yoursEmail", new Model(FruitShopSession.get().getUsername()));
+	private TextField subjectText = new TextField("subject", new Model(""));
+	private TextArea messageText = new TextArea("message", new Model(""));
+	private FeedbackPanel errorMessages = new FeedbackPanel("errorMessages");
 
 
 	public ContactUsPage(final PageParameters parameters) {
 		super(parameters);
 		// TODO Add your page's components here
-		Form ContactUsForm = new Form("ContactUsForm");
-		add(ContactUsForm);
-		ContactUsForm.add(new Label("HeaderPage", "Επικοινωνήστε μαζί μας"));
-		ContactUsForm.add(new Label("EmailHeader", "Email"));
-		ContactUsForm.add(new Label("BussinessEmail", bussiness_email));
-		ContactUsForm.add(new Label("PhonesHeader", "Επικοινωνήστε μαζί μας"));
-		ContactUsForm.add(new Label("Phones", "Σταθερό:210-7472461 Κινητό:6948-211181"));
-		ContactUsForm.add(new Label("SendUsAMessage", "Στείλτε μας ένα μύνημα"));
-		ContactUsForm.add(new Label("YoursEmailHeader", "Το Email σας"));
-		ContactUsForm.add(YoursMailText.setRequired(true));
-		ContactUsForm.add(new Label("SubjectHeader", "Θέμα"));
-		ContactUsForm.add(SubjectText.setRequired(true));
-		ContactUsForm.add(new Label("MessageHeader", "Μήνυμα"));
-		ContactUsForm.add(MessageText.setRequired(true));
-		Button SendIt = new Button("SendIt"){
+		Form contactUsForm = new Form("contactUsForm");
+		add(contactUsForm);
+		contactUsForm.add(new Label("bussinessEmail", bussiness_email));
+		contactUsForm.add(new Label("phones", "Phone: +306948211181"));
+		contactUsForm.add(yoursMailText.setRequired(true));
+		contactUsForm.add(subjectText.setRequired(true));
+		contactUsForm.add(messageText.setRequired(true));
+		add(errorMessages);
+		errorMessages.setOutputMarkupId(true);
+		errorMessages.setVisible(errorMessages.anyMessage());
+		Button sendIt = new Button("sendIt"){
 			@Override
 			public void onSubmit(){
-				String sbj = SubjectText.getInput().toString();
-				String msg = MessageText.getInput().toString();
-				String eml = YoursMailText.getInput().toString();
+				String sbj = subjectText.getInput().toString();
+				String msg = messageText.getInput().toString();
+				String eml = yoursMailText.getInput().toString();
 				msg = "Message From " + eml + "<br>" + msg;
 				if(!SendMail(bussiness_email, sbj, msg)){
-					error("Το μήνυμα δεν έχει αποσταλεί. Παρακαλώ προσπαθήστε αργότερα");
+					errorMessages.error("Your message was not send because of an internal error. Please try later");
 				} else {
-					setResponsePage(HomePage.class);
+					setResponsePage(HomePage.class, new PageParameters());
 				}
 			}
 		};
-		SendIt.add(AttributeModifier.append("value", "Αποστολή"));
-		ContactUsForm.add(SendIt);
-
+		contactUsForm.add(sendIt);
     }
+
+	@Override
+	protected void onBeforeRender() {
+		// TODO Auto-generated method stub
+		super.onBeforeRender();
+		errorMessages.setVisible(errorMessages.anyMessage());
+	}
+	
+	
 }

@@ -1,29 +1,44 @@
 <wicket:extend>
-   <form wicket:id="ContactUsForm">
-   <br>
-    <div class="contents" width="100%" >
-   	<h3 wicket:id="HeaderPage"></h3>
-   	<h3 wicket:id="EmailHeader"></h3>
-	<span wicket:id="BussinessEmail"></span>
-  	<h3 wicket:id="PhonesHeader"></h3>
-  	<span wicket:id="Phones"></span>
-    </div>
-      <span  wicket:id="SendUsAMessage" style="margin-left:3px;font-weight: bold"></span>
-      <table>
-        <tr>
-          <th wicket:id="YoursEmailHeader">  </th>
-          <td> <input type="text" wicket:id="YoursEmail" size="50"/> </td>
-        </tr>
-        <tr>
-          <th wicket:id="SubjectHeader"> Subject </th>
-          <td> <input type="text" wicket:id="Subject" size="50" /> </td>
-        </tr> 
-        <tr>
-          <th wicket:id="MessageHeader"> </th>
-          <td> <TEXTAREA wicket:id="Message" ROWS=5 COLS=50></textarea> </td>
-        </tr>
-      </table>   
-      <br> 
-      <input type="submit" wicket:id="SendIt" />
+<div class="row">
+ <div class="col-md-4 col-md-offset-3">
+   <div class="login-panel panel panel-default" style="margin-top: 0">
+     <div class="panel-heading">
+       Contact Us
+     </div>
+     <div class=panel-body>
+       <form class="form-horizontal" wicket:id="contactUsForm">
+         <fieldset>
+   	      <div class="form-group">
+	         <div class="col-md-12">
+	           <label class="contol-label" wicket:id="bussinessEmail"></label>
+	         </div>
+	      </div>
+   	      <div class="form-group">
+	         <div class="col-md-12">
+	           <label class="contol-label" wicket:id="phones"></label>
+	         </div>
+	      </div>           
+	      <div class="form-group" id="emailGroup">
+	         <div class="col-md-12">
+	           <input class="form-control" placeholder="Email" type="text" wicket:id="yoursEmail" size="50"></input>
+	         </div>
+	      </div>
+	      <div class="form-group" id="subjectGroup">
+	         <div class="col-md-12">
+	           <input class="form-control" placeholder="Subject" type="text" wicket:id="subject" size="50"></input>
+	         </div>
+	      </div>     
+	      <div class="form-group" id="messageGroup">
+	         <div class="col-md-12">
+	           <textarea class="form-control" placeholder="Type your message here" type="text" wicket:id="message" ROWS=5 COLS=50></textarea>
+	         </div>
+	      </div>
+	      </fieldset>
+	      <input type="submit" class="btn btn-lg btn-block btn-success" value="Send" wicket:id="sendIt"></input>
       </form>
+    </div>
+  </div>
+  <div class="alert alert-danger" wicket:id="errorMessages"></div>
+ </div>
+</div>    
 </wicket:extend>
