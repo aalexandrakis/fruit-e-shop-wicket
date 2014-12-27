@@ -51,15 +51,12 @@ public class OrderDetailsPage extends BasePage {
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	private void construct(){
-		add(new Label("Header1", "Παραγγελία Νο:"));
 		add(new Label("OrderId", Order.getOrderid()));
-		add(new Label("Header2a", "του χρήστη:"));
 		add(new Label("UserName", Order.getUsername()));
-		add(new Label("Header3", "στις "));
 		System.out.print("OrderDate" + Order.getDate() + "\n");
 		add(new Label("Date", dateFormatIso.format(Order.getDate())));
-		add(new Label("Header4", "σε κατάσταση "));
 		add(new Label("StatusDesc", getStatusDesc(Order.getStatus())));
 		
 		

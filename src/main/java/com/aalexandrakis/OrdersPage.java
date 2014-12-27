@@ -37,6 +37,7 @@ public class OrdersPage extends BasePage {
     }
 	
 	
+	@SuppressWarnings("unchecked")
 	private void construct(){
 		if (isAdmin){
 				add(new Label("PageHeader", "Παραγγελίες Πελατών"));
@@ -45,15 +46,21 @@ public class OrdersPage extends BasePage {
 				add(new Label("PageHeader", "Οι παραγγελίες μου"));
 				ListOrders = getOrdersFromUsername();
 		}
-		add(new Label("orderidHeader", "Κωδικός"));
-		add(new Label("orderdateHeader", "Ημερομηνία"));
-		add(new Label("amountHeader", "Αξία"));
-		add(new Label("statusHeader", "Κατάσταση"));
-		add(new Label("emailHeader", "Χρήστης").setVisible(isAdmin));
+		add(new Label("orderidHeader", "Item code"));
+		add(new Label("orderdateHeader", "Order Date"));
+		add(new Label("amountHeader", "Amount"));
+		add(new Label("statusHeader", "Status"));
+		add(new Label("emailHeader", "User").setVisible(isAdmin));
 		add(new Label("paypalHeader", "Paypal Id").setVisible(isAdmin));
-		add(new Label("detailsHeader", "Λεπτομέριες"));
+		add(new Label("detailsHeader", "Details"));
 		
 		add(new ListView("orders", new PropertyModel(this, "ListOrders")) {
+		/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+		@SuppressWarnings("rawtypes")
 		@Override
 		protected void populateItem(ListItem item) {
 			Order order = (Order) item.getModelObject();
@@ -69,7 +76,7 @@ public class OrdersPage extends BasePage {
 			BookmarkablePageLink DetailsLink = 
 								new BookmarkablePageLink("details", OrderDetailsPage.class, parameters);
 			item.add(DetailsLink);
-			DetailsLink.add(new Label("detailHeader", "Λεπτομέριες"));
+//			DetailsLink.add(new Label("detailHeader", "Λεπτομέριες"));
 			
 			}
 		});

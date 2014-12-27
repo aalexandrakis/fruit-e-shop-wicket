@@ -30,6 +30,10 @@ public class BasePage extends WebPage {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	BookmarkablePageLink myCartLink = new BookmarkablePageLink("myCartLink",
 			MyCartPage.class, new PageParameters());
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	BookmarkablePageLink myOrdersLink = new BookmarkablePageLink("myOrdersLink",
+			OrdersPage.class, new PageParameters());
+	
 	public BasePage(){
 		super();
 		pageInitialization();
@@ -58,6 +62,10 @@ public class BasePage extends WebPage {
 				ContactUsPage.class, new PageParameters());
 		contactUsLink.setOutputMarkupId(true);
 		add(contactUsLink);
+//		
+		myOrdersLink.setOutputMarkupId(true);
+		myOrdersLink.setVisible(!FruitShopSession.get().getUsername().isEmpty());
+		add(myOrdersLink);
 //		
 		LoadableDetachableModel<ArrayList<Cart_Item>> cartModel = new LoadableDetachableModel<ArrayList<Cart_Item>>() {
 
@@ -258,6 +266,7 @@ public class BasePage extends WebPage {
 		super.onBeforeRender();
 		refreshCartItems();
 		cartItemsCount.setVisible(cartItems > 0);
+		myOrdersLink.setVisible(!FruitShopSession.get().getUsername().isEmpty());
 	}
 	
 	private void refreshCartItems(){

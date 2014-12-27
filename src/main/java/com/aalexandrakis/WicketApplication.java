@@ -101,6 +101,8 @@ public class WicketApplication extends WebApplication
 	    mountPage("addUpdateUser", AddUpdateUserPage.class);
 	    mountPage("resetPassword", ResetPasswordPage.class);
 	    mountPage("myCart", MyCartPage.class);
+	    mountPage("myOrders", OrdersPage.class);	   
+	    mountPage("orderDetails", OrderDetailsPage.class);
 	}
 
 
