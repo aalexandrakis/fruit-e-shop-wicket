@@ -45,6 +45,26 @@
 	               </ul>
 	               <!-- /.navbar-collapse -->
 	             <ul class="nav navbar-top-links navbar-right">
+	             	 <li class="dropdown">
+		                <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">
+		                    <i class="fa fa-shopping-cart"></i> 
+		                    <i class="fa fa-caret-down"></i>
+		                    <span class="badge badge-success" wicket:id="cartItemsCount">12</span>
+		                </a>
+		                <ul class="dropdown-menu dropdown-user">
+		                    <li wicket:id="cartList">
+		                    	<span wicket:id="itemDescr"></span>
+		                    	<span class="pull-right text-muted small" wicket:id="itemQuantity"></span>
+		                    </li>
+		                    <li wicket:id="emptyCart">Your cart is empty</li>
+		                    <!-- <li><a wicket:id="logInLink"><i class="fa fa-sign-in fa-fw"></i> Log In</a></li>
+		                    <li class="divider"></li>
+		                    <li><a wicket:id="myAccountLink" ><i class="fa fa-user fa-fw"></i> My Account</a></li>
+		                    <li><a wicket:id="signUpLink"><i class="fa fa-plus-circle fa-fw"></i> Sign Up</a></li>
+		                    <li><a wicket:id="resetPasswordLink"><i class="fa fa-key "></i> Reset Password</a></li> -->
+		                </ul>
+		                <!-- /.dropdown-cart -->
+		            </li>
 		             <li class="dropdown">
 		                <a aria-expanded="false" class="dropdown-toggle" data-toggle="dropdown">
 		                    <i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>

@@ -61,5 +61,5 @@ public class Cart_Item implements java.io.Serializable{
     public Float getSummary(){
     	return this.quantity * this.price;
     }
-    
+
 }

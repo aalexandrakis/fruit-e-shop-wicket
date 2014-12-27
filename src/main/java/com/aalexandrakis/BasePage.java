@@ -13,6 +13,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
 
@@ -21,7 +23,10 @@ public class BasePage extends WebPage {
 	protected DateFormat dateFormatIso = new SimpleDateFormat("yyyy-MM-dd");
 	public final String bussiness_email = System.getenv("HOTMAIL");
 	public boolean isLoggedIn;
-	
+	int cartItems = 0;
+	Label cartItemsCount = new Label("cartItemsCount", Model.of(cartItems));
+	ListView<Cart_Item> cartList;
+	Label emptyCart = new Label("emptyCart", "Your cart is empty");
 	public BasePage(){
 		super();
 		pageInitialization();
@@ -46,11 +51,43 @@ public class BasePage extends WebPage {
 		whereWeAreLink.setOutputMarkupId(true);
 		add(whereWeAreLink);
 //		
-
 		BookmarkablePageLink contactUsLink = new BookmarkablePageLink("contactUsLink",
 				ContactUsPage.class, new PageParameters());
 		contactUsLink.setOutputMarkupId(true);
 		add(contactUsLink);
+//		
+		refreshCartItems();
+		cartItemsCount.setVisible(cartItems > 0);
+		add(cartItemsCount);
+//		
+		LoadableDetachableModel<ArrayList<Cart_Item>> cartModel = new LoadableDetachableModel<ArrayList<Cart_Item>>() {
+
+			@Override
+			protected ArrayList<Cart_Item> load() {
+				// TODO Auto-generated method stub
+				return FruitShopSession.get().getCart();
+			}
+			
+		};
+		cartList = new ListView<Cart_Item>("cartList", cartModel){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@Override
+			protected void populateItem(ListItem<Cart_Item> item) {
+				// TODO Auto-generated method stub
+				Cart_Item cartItem = (Cart_Item) item.getModelObject();
+				Label itemDescr = new Label("itemDescr", Model.of(cartItem.getDescr()));
+				Label itemQuantity = new Label("itemQuantity", Model.of(cartItem.getQuantity()));
+				item.add(itemDescr);
+				item.add(itemQuantity);
+			}			
+		};
+		add(cartList);
+		cartList.setVisible(cartItems > 0);
+		add(emptyCart);
+		emptyCart.setVisible(cartItems == 0);
 //		
 		AjaxFallbackLink logOutLink = new AjaxFallbackLink("logOutLink"){
 			/**
@@ -207,4 +244,22 @@ public class BasePage extends WebPage {
 	public List<Customer> getCustomers() {
 		return WicketApplication.get().getCustomers();
 	}
+
+	@Override
+	protected void onBeforeRender() {
+		// TODO Auto-generated method stub
+		super.onBeforeRender();
+		refreshCartItems();
+		cartItemsCount.setVisible(cartItems > 0);
+	}
+	
+	private void refreshCartItems(){
+		cartItems = FruitShopSession.get().getCart() == null || FruitShopSession.get().getCart().size() == 0 ? 0 : FruitShopSession.get().getCart().size();
+		cartItemsCount.setDefaultModelObject(cartItems);
+		if (cartList != null){
+			cartList.setVisible(cartItems > 0);
+		}
+		emptyCart.setVisible(cartItems == 0);
+	}
+	
 }
