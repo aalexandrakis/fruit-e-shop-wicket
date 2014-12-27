@@ -22,9 +22,19 @@ public class BasePage extends WebPage {
 	public final String bussiness_email = System.getenv("HOTMAIL");
 	public boolean isLoggedIn;
 	
+	public BasePage(){
+		super();
+		pageInitialization();
+	}
+	
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public BasePage(final PageParameters parameters) {
 		super(parameters);
+		pageInitialization();
+    }
+	
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void pageInitialization(){
 		isLoggedIn = !FruitShopSession.get().getUsername().isEmpty();
 		BookmarkablePageLink aboutUsLink = new BookmarkablePageLink("aboutUsLink",
 				AboutUsPage.class, new PageParameters());
@@ -132,30 +142,16 @@ public class BasePage extends WebPage {
 			protected void populateItem(ListItem item) {
 				// TODO Auto-generated method stub
 				Items_Category itemCategory = (Items_Category) item.getModelObject();
-				AjaxLink categoryLink = new AjaxLink("categoryLink"){
-					/**
-					 * 
-					 */
-					private static final long serialVersionUID = 1L;
-					@Override
-					public void onClick(AjaxRequestTarget arg0) {
-						// TODO Auto-generated method stub
-					}					
-				};
+
+				BookmarkablePageLink categoryLink = new BookmarkablePageLink("categoryLink",
+						HomePage.class, new PageParameters().add("categoryId", itemCategory.getCategoryid()));
 				categoryLink.add(new Label("categoryLabel", itemCategory.getCategory()));
 				item.add(categoryLink);
 			}
 		};
 		add(categoriesList);
-		//this.FSSession = (FruitShopSession)getSession();
-		//add(new Label("version", getApplication().getFrameworkSettings().getVersion()));
-//		add (new LoginPanel("Login"));
-//		add (new Label("Header2", "Μπακάλικο"));
-//		add (new MyCartPanel("CartPanel"));
-//      add (new MenuPanel("Menu", getClass().toString()));
-        
-		// TODO Add your page's components here
-    }
+	}
+	
 	
 	public List<Items_Category> getCategories() {
 		return WicketApplication.get().getCategories();

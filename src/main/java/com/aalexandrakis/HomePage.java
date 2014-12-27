@@ -30,33 +30,39 @@ import org.eclipse.jetty.util.resource.FileResource;
 
 public class HomePage extends BasePage {
 	private static final long serialVersionUID = 1L;
-    public Integer CategoryId=0;
+    public Integer categoryId=0;
     public String photo="";
 	private Class ItemClass = null;
     private List<Item> ItemsList = new ArrayList<Item>();
+    public HomePage(){
+    	super();
+    	categoryId=WicketApplication.get().getCategories().get(0).getCategoryid();
+    	homePageInitialization();
+    }
     @SuppressWarnings({ "unchecked", "rawtypes" })
 	public HomePage(final PageParameters parameters) {
 		super(parameters);
-		if (parameters.getNamedKeys().contains("CategoryId")){
-			CategoryId = parameters.get("CategoryId").toInteger();
+		if (parameters.getNamedKeys().contains("categoryId")){
+			categoryId = parameters.get("categoryId").toInteger();
 		} else {
-			CategoryId=WicketApplication.get().getCategories().get(0).getCategoryid();
+			categoryId=WicketApplication.get().getCategories().get(0).getCategoryid();
 		}
-//		CategoriesPanel CatPanel = new CategoriesPanel("CategoriesPanel", getClass(), CategoryId);
-//		add (CatPanel);
+		homePageInitialization();
+    }
+	
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	private void homePageInitialization(){
 		/*****************************************************/
-//		if(FruitShopSession.get().getIsAdmin()==null
-//				|| FruitShopSession.get().getIsAdmin()==false){
-//				ItemsList = getActiveItems(CatPanel.getCategoryId());
-//			} else {
-//				ItemsList = getAllItems(CatPanel.getCategoryId());
-//		}
-		ItemsList = getActiveItems(2);
+		if(FruitShopSession.get().getIsAdmin()==null
+				|| FruitShopSession.get().getIsAdmin()==false){
+				ItemsList = getActiveItems(categoryId);
+			} else {
+				ItemsList = getAllItems(categoryId);
+		}
 		/*****************************************************/
-        add(new Label("ProductsHeader", "Προϊόντα"));
         //add(new Label("CategoryId", CategoryId));
-        PageableListView products
-		= new PageableListView("products", ItemsList, 20) {
+        ListView products
+		= new ListView("products", ItemsList) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -74,18 +80,18 @@ public class HomePage extends BasePage {
 					//Image ItemImage = new Image("ItemImage"){};
 					//ItemImage.add(AttributeModifier.replace("src", photo));
 					//item.add(ItemImage);
-					Image ItemImage = new Image("ItemImage"){};
-					ItemImage.add(AttributeModifier.replace("src", photo));
+					Image itemImage = new Image("itemImage"){};
+					itemImage.add(AttributeModifier.replace("src", photo));
 									//new SharedResourceReference(HomePage.class, photo));
-					item.add(ItemImage);
+					item.add(itemImage);
 					PageParameters parameters = new PageParameters();
-					parameters.set("ItemId", CurrentItem.getItemid());
-					BookmarkablePageLink ItemDetails = new BookmarkablePageLink("ItemDetails",
+					parameters.set("itemId", CurrentItem.getItemid());
+					BookmarkablePageLink itemDetails = new BookmarkablePageLink("itemDetails",
 							                           ItemClass, parameters);
-					item.add(ItemDetails);
-					ItemDetails.add(new Label("descr", CurrentItem.getDescr()));
-					item.add(new Label("price", CurrentItem.getPrice()));
-					Link AddToCart = new Link("AddToCart", item.getModel()){
+					item.add(itemDetails);
+					itemDetails.add(new Label("descr", CurrentItem.getDescr()));
+					item.add(new Label("price", "€" + CurrentItem.getPrice().toString()));
+					Link addToCart = new Link("addToCart", item.getModel()){
 						@Override
 						public void onClick(){
 							Item SelectedItem = (Item) getModelObject();
@@ -100,17 +106,17 @@ public class HomePage extends BasePage {
 						    //System.out.print(FruitShopSession.get().CalcCart()+"\n");
 						}
 					};
-					item.add(AddToCart);
-					AddToCart.add(new Image("AddToCartButton",
-							new SharedResourceReference(HomePage.class, "buttons/addtocart.GIF")));
+					item.add(addToCart);
+//					addToCart.add(new Image("AddToCartButton",
+//							new SharedResourceReference(HomePage.class, "buttons/addtocart.GIF")));
 					
 				}
 		};
         
 	add(products);
-	add(new PagingNavigator("navigator", products));
+//	add(new PagingNavigator("navigator", products));
+
     }
-	
 	@Override
 	protected void onBeforeRender(){
 		super.onBeforeRender();

@@ -1,6 +1,88 @@
 <wicket:extend>
-    <br>
-	<div style="float: right;width:78%">
+	<div class="col-md-12">
+        <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li class="" data-target="#carousel-example-generic" data-slide-to="0"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="1"></li>
+                <li class="active" data-target="#carousel-example-generic" data-slide-to="2"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="3"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="4"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="5"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="6"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="7"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="8"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="9"></li>
+                <li class="" data-target="#carousel-example-generic" data-slide-to="10"></li> 
+            </ol>
+            <div class="carousel-inner">
+                <div class="item">
+                    <img class="slide-image" src="images/DSC00798.JPG" alt="" >
+                </div>
+                <div class="item active left">
+                    <img class="slide-image" src="images/DSC00799.JPG" alt="">
+                </div>
+                <div class="item next left">
+                    <img class="slide-image" src="images/DSC00800.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00801.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00802.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00803.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00804.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00805.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00806.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00807.JPG" alt="">
+               </div>
+               <div class="item">
+                    <img class="slide-image" src="images/DSC00808.JPG" alt="">
+               </div>
+           
+            </div>
+            <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
+                <span class="glyphicon glyphicon-chevron-left"></span>
+            </a>
+            <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
+                <span class="glyphicon glyphicon-chevron-right"></span>
+            </a>
+        </div>
+	</div>
+	<div class="row">
+       <div class="col-sm-4 col-lg-4 col-md-4" wicket:id="products">
+           <div class="thumbnail">
+               <img wicket:id="itemImage"  alt="" style="align:center;height: 130px;width: 130px">
+               <div class="caption">
+               	   <h4 class="pull-right" wicket:id="price">&euro;1.99</h4>
+                   <h4><a href="#" wicket:id="itemDetails"><span class="itemlink" wicket:id="descr">Gouda</span></a>
+                   </h4>
+                   <p>Some product details.</p>
+                   	<a href="#" wicket:id="addToCart" class="btn btn-lg btn-block btn-success">Add to cart</a>
+               </div>
+               <!-- <div class="ratings">
+                   <p class="pull-right">15 reviews</p>
+                   <p>
+                       <span class="glyphicon glyphicon-star"></span>
+                       <span class="glyphicon glyphicon-star"></span>
+                       <span class="glyphicon glyphicon-star"></span>
+                       <span class="glyphicon glyphicon-star"></span>
+                       <span class="glyphicon glyphicon-star"></span>
+                   </p>
+               </div>-->
+           </div>
+       </div>
+   </div>
+    <!-- <div style="float: right;width:78%">
 	   <div style="width:100%" wicket:id="ProductsHeader" class="headers"></div>
 	   <div id="itemslist" wicket:id="products">
 	        <img wicket:id="ItemImage" style="align:center;height: 130px;width: 130px"/>
@@ -12,11 +94,11 @@
 			&euro;<span wicket:id="price">&euro;1.99</span>
 			<br>
 			<a href="#" wicket:id="AddToCart"><img wicket:id="AddToCartButton" alt="Add To cart" style="border-style: none;"/></a>
-			<!-- <input type="hidden" wicket:id="Itemid"/>
+			<input type="hidden" wicket:id="Itemid"/>
 			<input type="hidden" wicket:id="Categoryid"/>
 			<input type="hidden" wicket:id="Price"/>
-			<input type="hidden" wicket:id="Mm"/> -->
+			<input type="hidden" wicket:id="Mm"/>
 	   </div>
 	   <div wicket:id="navigator" style="clear:both"></div>
-	</div>
+	</div> -->
 </wicket:extend>
