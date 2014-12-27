@@ -83,20 +83,8 @@ public class BasePage extends WebPage {
 		myAccountLink.setOutputMarkupId(true);
 		add(myAccountLink);
 		
-		AjaxLink resetPasswordLink = new AjaxLink("resetPasswordLink"){
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick(AjaxRequestTarget arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
+		BookmarkablePageLink resetPasswordLink = new BookmarkablePageLink("resetPasswordLink",
+				ResetPasswordPage.class, new PageParameters());
 		resetPasswordLink.setVisible(!isLoggedIn);
 		resetPasswordLink.setOutputMarkupId(true);
 		add(resetPasswordLink);

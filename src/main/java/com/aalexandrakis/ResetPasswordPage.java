@@ -41,7 +41,9 @@ import org.hibernate.SharedSessionContract;
 import org.hibernate.Transaction;
 import org.hibernate.mapping.Array;
 
-public class LoginPage extends BasePage {
+import com.sun.jersey.spi.inject.Errors.ErrorMessagesException;
+
+public class ResetPasswordPage extends BasePage {
     
 	/**
 	 * 
@@ -51,12 +53,9 @@ public class LoginPage extends BasePage {
 	private String passwordString = "";
 	private WebMarkupContainer mainDiv = new WebMarkupContainer("mainDiv");
 	private TextField email = new TextField("email", new Model<String>(emailString));
-	private PasswordTextField password = new PasswordTextField("password", new Model<String>(passwordString));
-//	private ComponentFeedbackPanel emailError = new ComponentFeedbackPanel("emailError", email);
-//	private ComponentFeedbackPanel passwordError = new ComponentFeedbackPanel("passwordError", password);
 	private FeedbackPanel errorMessages = new FeedbackPanel("errorMessages");
 	
-	public LoginPage(PageParameters parms) {
+	public ResetPasswordPage(PageParameters parms) {
 		
 		super(parms);
 		Form form = new Form("form"){
@@ -65,29 +64,31 @@ public class LoginPage extends BasePage {
 				// TODO Auto-generated method stub
 				super.onValidate();
 				SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-				org.hibernate.Session session = sf.openSession(); 
+				org.hibernate.Session session = sf.openSession();
+				Transaction tx = session.beginTransaction();
 				try{ 
-					String hql = "From Customer C where C.email = :email and C.password = :password";
+					String hql = "From Customer C where C.email = :email";
 					Query q = session.createQuery(hql)
-							  .setString("email", email.getInput())
-							  .setString("password", Sha1.getHash(password.getInput()));
+							  .setString("email", email.getInput());
 					//info(Sha1.getHash(Password.getInput().toString()));
 					List<Customer> resultList = q.list();
 	                //DebugString = q.getQueryString()										
 					if (resultList.size() == 0 || resultList.size() > 1 ){
-						errorMessages.error("Email or password error please try again");
+						errorMessages.error("Email not found please try again");
 					} else {
 						Customer currentCustomer = resultList.get(0);
-						FruitShopSession.get().setUsername(currentCustomer.getEmail());
-						FruitShopSession.get().setCurrentUser(currentCustomer);
-						if (currentCustomer.getAdmin().equals(1)){
-							FruitShopSession.get().setIsAdmin(true);
+						String newPassword = makeid();
+						currentCustomer.setPassword(Sha1.getHash(newPassword));
+						session.update(currentCustomer);
+						if (SendMail(email.getInput(), "Reset password" , "Your new password is " + newPassword)){
+							tx.commit();
 						} else {
-							FruitShopSession.get().setIsAdmin(false);
+							tx.rollback();
 						}
 					}	
 			    } catch (HibernateException e) { 
-					e.printStackTrace(); 
+					e.printStackTrace();
+					errorMessages.error("An internal error occured. Please try later.");
 				}finally { 
 					((org.hibernate.Session) session).close(); 
 				}		
@@ -114,13 +115,10 @@ public class LoginPage extends BasePage {
 		mainDiv.setOutputMarkupId(true);
 		email.setOutputMarkupId(true);
 		email.setRequired(true);
-		password.setOutputMarkupId(true);
-		password.setRequired(true);
 		errorMessages.setOutputMarkupId(true);
 		errorMessages.setVisible(false);
 		loginButton.setOutputMarkupId(true);
 		form.add(email);
-		form.add(password);
 		form.add(loginButton);
 		mainDiv.add(form);
 		mainDiv.add(errorMessages);
@@ -133,5 +131,14 @@ public class LoginPage extends BasePage {
    protected void onBeforeRender(){
 	   super.onBeforeRender();
 	   errorMessages.setVisible(errorMessages.anyMessage());
+   }
+
+   static String makeid(){
+       String text = "";
+       String possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+       for( int i=0; i < 7; i++ )
+           text += possible.charAt((int) Math.floor(Math.random() * possible.length()));
+       return text;
    }
 }

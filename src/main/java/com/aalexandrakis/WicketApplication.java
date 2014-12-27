@@ -99,7 +99,7 @@ public class WicketApplication extends WebApplication
 	    mountPage("contactUs", ContactUsPage.class);
 	    mountPage("where", WherePage.class);
 	    mountPage("addUpdateUser", AddUpdateUserPage.class);
-	    
+	    mountPage("resetPassword", ResetPasswordPage.class);
 	}
 
 

@@ -154,7 +154,7 @@ public class WebServices {
 	@Produces(MediaType.APPLICATION_JSON + "; charset=UTF-8")
 	public Response resetPassword(@FormParam("email") String email) {
 		JSONObject jsonResponse = new JSONObject();
-		String newPassword = LoginPage.makeid();
+		String newPassword = ResetPasswordPage.makeid();
 		try {
 			if (!WicketApplication.get().resetPassword(email, newPassword)){
 				jsonResponse.put("status", "FAILED");
