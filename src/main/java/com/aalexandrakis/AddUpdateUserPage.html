@@ -1,38 +1,54 @@
 <wicket:extend>
-<br>
-<h3 wicket:id="PageHeader"></h3>
-<form wicket:id="NewUserForm"> 
-     <table>
-       <tr>
-         <th wicket:id="NameHeader" style="text-align:left;"> Ονοματεπώνυμο </th>
-         <td> <input type="text" wicket:id="name" size="50" maxlength"50"></td>
-       </tr>
-       <tr>
-         <th wicket:id="AddressHeader" style="text-align:left;"> Διεύθυνση </th>
-         <td> <input type="text" wicket:id="address" size="50" maxlength"100"></td>
-       </tr>
-       <tr>
-         <th wicket:id="CityHeader" style="text-align:left;"> Πόλη/Περιοχή </th>
-         <td> <input type="text" wicket:id="city" size="50" maxlength"50"></td>
-       </tr>
-       <tr>
-         <th wicket:id="PhoneHeader" style="text-align:left;"> Τηλέφωνο </th>
-         <td> <input type="text" wicket:id="phone"  size="10" maxlength"10"></td>
-       </tr>
-       <tr>
-         <th wicket:id="EmailHeader" style="text-align:left;"> E-mail </th>
-         <td> <input type="text" wicket:id="email" size="50" maxlength"50"></td>
-       </tr>
-       <tr>
-         <th wicket:id="PasswordHeader" style="text-align:left;"> Κωδικός χρήστη </th>
-         <td> <input type="password" wicket:id="password" size="20" maxlength"20"></td>
-       </tr>                                             
-       <tr>
-         <th wicket:id="ConfirmHeader" style="text-align:left;"> Επιβεβαίωση κωδικού χρήστη </th>
-         <td> <input type="password" wicket:id="confpass" size="20" maxlength"20"></td>
-       </tr>
-   </table>
-   <input type="submit" wicket:id="NewUserButton"/> 
-   <br>
-</form>
+<div class="row">
+   <div class="col-md-6 col-md-offset-2">	
+	<div class="login-panel panel panel-default" style="margin-top: 0">
+	  <div class="alert alert-danger" wicket:id="errorMessages"></div>
+		  <div class="panel-heading">
+		    <label wicket:id="panelHeader"></label>
+		  </div>
+		  <div class=panel-body>
+		    <form class="form-horizontal" wicket:id="form">
+		      <fieldset>
+		        <div class="form-group" id="emailGroup">
+		          <div class="col-md-12">
+		          	<input type="text" class="form-control" placeholder="Name" wicket:id="name" maxlength"50">
+		          </div>
+		        </div>
+		        <div class="form-group" id="addressGroup">
+		          <div class="col-md-12">
+		          	<input type="text" class="form-control" placeholder="Address" wicket:id="address" maxlength"100">
+		          </div>
+		        </div>
+		        <div class="form-group" id="cityGroup">
+		          <div class="col-md-12">
+		          	<input type="text" class="form-control" placeholder="City" wicket:id="city" maxlength"50">
+		          </div>
+		        </div>        
+		        <div class="form-group" id="phoneGroup">
+		          <div class="col-md-12">
+		          	<input type="text" class="form-control" placeholder="Phone" wicket:id="phone" maxlength"10">
+		          </div>
+		        </div>        
+		        <div class="form-group" id="emailGroup">
+		          <div class="col-md-12">
+		          	<input type="text" class="form-control" placeholder="Email" wicket:id="email" maxlength"50">
+		          </div>
+		        </div>        
+		        <div class="form-group" id="passwordGroup">
+		          <div class="col-md-12">
+		          	<input type="password" class="form-control" placeholder="Password" wicket:id="password" maxlength"20">
+		          </div>
+		        </div>        
+		        <div class="form-group" id="confPasswordGroup">
+		          <div class="col-md-12">
+		          	<input type="password" class="form-control" placeholder="Confirm Pasword" wicket:id="confpass" maxlength"20">
+		          </div>
+		        </div>        
+		       </fieldset>
+		       <input type="submit" class="btn btn-lg btn-block btn-success" wicket:id="submitButton"></input>
+		    </form>
+		  </div>
+		</div>
+	</div>
+</div>          	
 </wicket:extend>

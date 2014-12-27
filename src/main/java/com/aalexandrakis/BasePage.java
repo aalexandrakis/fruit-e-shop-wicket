@@ -77,20 +77,8 @@ public class BasePage extends WebPage {
 		logInLink.setOutputMarkupId(true);
 		add(logInLink);
 		
-		AjaxLink myAccountLink = new AjaxLink("myAccountLink"){
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick(AjaxRequestTarget arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
+		BookmarkablePageLink myAccountLink = new BookmarkablePageLink("myAccountLink",
+				AddUpdateUserPage.class, new PageParameters());
 		myAccountLink.setVisible(isLoggedIn);
 		myAccountLink.setOutputMarkupId(true);
 		add(myAccountLink);
@@ -113,20 +101,8 @@ public class BasePage extends WebPage {
 		resetPasswordLink.setOutputMarkupId(true);
 		add(resetPasswordLink);
 		
-		AjaxLink signUpLink = new AjaxLink("signUpLink"){
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void onClick(AjaxRequestTarget arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		};
+		BookmarkablePageLink signUpLink = new BookmarkablePageLink("signUpLink",
+				AddUpdateUserPage.class, new PageParameters());
 		signUpLink.setVisible(!isLoggedIn);
 		signUpLink.setOutputMarkupId(true);
 		add(signUpLink);

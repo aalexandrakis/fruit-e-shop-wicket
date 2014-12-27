@@ -98,6 +98,7 @@ public class WicketApplication extends WebApplication
 	    mountPage("aboutUs", AboutUsPage.class);
 	    mountPage("contactUs", ContactUsPage.class);
 	    mountPage("where", WherePage.class);
+	    mountPage("addUpdateUser", AddUpdateUserPage.class);
 	    
 	}
 
