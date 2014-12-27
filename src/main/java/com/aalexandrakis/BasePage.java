@@ -27,6 +27,9 @@ public class BasePage extends WebPage {
 	Label cartItemsCount = new Label("cartItemsCount", Model.of(cartItems));
 	ListView<Cart_Item> cartList;
 	Label emptyCart = new Label("emptyCart", "Your cart is empty");
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	BookmarkablePageLink myCartLink = new BookmarkablePageLink("myCartLink",
+			MyCartPage.class, new PageParameters());
 	public BasePage(){
 		super();
 		pageInitialization();
@@ -56,10 +59,6 @@ public class BasePage extends WebPage {
 		contactUsLink.setOutputMarkupId(true);
 		add(contactUsLink);
 //		
-		refreshCartItems();
-		cartItemsCount.setVisible(cartItems > 0);
-		add(cartItemsCount);
-//		
 		LoadableDetachableModel<ArrayList<Cart_Item>> cartModel = new LoadableDetachableModel<ArrayList<Cart_Item>>() {
 
 			@Override
@@ -69,6 +68,14 @@ public class BasePage extends WebPage {
 			}
 			
 		};
+		
+		myCartLink.setOutputMarkupId(true);
+		add(myCartLink);
+		myCartLink.setVisible(cartItems > 0);
+		
+		refreshCartItems();
+		cartItemsCount.setVisible(cartItems > 0);
+		add(cartItemsCount);
 		cartList = new ListView<Cart_Item>("cartList", cartModel){
 			/**
 			 * 
@@ -260,6 +267,8 @@ public class BasePage extends WebPage {
 			cartList.setVisible(cartItems > 0);
 		}
 		emptyCart.setVisible(cartItems == 0);
+		
+		myCartLink.setVisible(cartItems > 0);
 	}
 	
 }

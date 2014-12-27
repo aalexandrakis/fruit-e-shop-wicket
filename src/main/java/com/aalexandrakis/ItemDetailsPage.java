@@ -66,7 +66,7 @@ public class ItemDetailsPage extends BasePage {
 				//System.out.print(SelectedItem.getItemid());
 				//ItemToAdd.setQuantity(1.0f);
 				FruitShopSession.get().addToCart(ItemToAdd);
-				System.out.print(FruitShopSession.get().CalcCart());
+				System.out.print(FruitShopSession.get().calcCart());
 				PageParameters parameters = new PageParameters();
 				parameters.set("CategoryId", ItemToAdd.getCategoryid());
 				setResponsePage(HomePage.class, parameters);

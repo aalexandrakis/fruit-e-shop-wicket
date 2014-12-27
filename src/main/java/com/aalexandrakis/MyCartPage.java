@@ -31,16 +31,6 @@ public class MyCartPage extends BasePage {
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void construct(){
 		//removeAll();
-		add(new Label("PageHeader", "Το καλάθι μου"));
-		add(new Label("itemidHeader", "Κωδικός"));
-		add(new Label("descrHeader", "Περιγραφή"));
-		add(new Label("mmHeader", "Μον.Μέτρησης"));
-		add(new Label("categoryHeader", "Κατηγορία"));
-		add(new Label("priceHeader", "Τιμή"));
-		add(new Label("quantityHeader", "Ποσότητα"));
-		add(new Label("summaryHeader", "Αξία"));
-		add(new Label("removeHeader", "Διαγραφή"));
-		
 		add(new ListView("cart", new PropertyModel(this, "CartList")) {
 		/**
 			 * 
@@ -53,12 +43,12 @@ public class MyCartPage extends BasePage {
 			item.add(new Label("itemid", cartitem.getItemid()));
 			item.add(new Label("descr", cartitem.getDescr()));
 			item.add(new Label("mm", cartitem.getMm()));
-			item.add(new Label("category", getCategory(cartitem.getCategoryid()).getCategory()));
+//			item.add(new Label("category", getCategory(cartitem.getCategoryid()).getCategory()));
 			item.add(new Label("price",  cartitem.getPrice()));
 			item.add(new Label("quantity", cartitem.getQuantity()));
 			item.add(new Label("summary",  cartitem.getSummary()));
 			//item.add(removeLink("remove", item));
-			Link RemoveLink = new Link("remove", item.getModel()){
+			Link removeLink = new Link("remove", item.getModel()){
 				/**
 				 * 
 				 */
@@ -76,14 +66,14 @@ public class MyCartPage extends BasePage {
 					
 				}
 			};
-			item.add(RemoveLink);
-			RemoveLink.add(new Image("removebutton", "buttons/deletefromcart.GIF"));
+			item.add(removeLink);
+			
 			}
 		});
 		add(new Label("TotalHeader", "Σύνολο"));
-		add(new Label("total", new Model(FruitShopSession.get().CalcCart())));
+		add(new Label("total", new Model(FruitShopSession.get().calcCart())));
 		
-		Link EmptyLink = new Link("EmptyLink"){
+		Link emptyLink = new Link("emptyLink"){
 			/**
 			 * 
 			 */
@@ -102,11 +92,9 @@ public class MyCartPage extends BasePage {
 				setVisible(!FruitShopSession.get().getCart().isEmpty());
 			}
 		};
-		add(EmptyLink);
-		EmptyLink.add(new Image("EmptyButton", "buttons/emptycart.GIF"));
+		add(emptyLink);
 		
-		
-		Link PayLink = new Link("PayLink"){
+		Link payLink = new Link("payLink"){
 			/**
 			 * 
 			 */
@@ -131,21 +119,20 @@ public class MyCartPage extends BasePage {
 				
 			}
 		};
-		add(PayLink.setVisible(!FruitShopSession.get().getCart().isEmpty()));
-		PayLink.add(new Image("PayButton", "buttons/paybutton.GIF"));
-		
+		add(payLink.setVisible(!FruitShopSession.get().getCart().isEmpty()));
 	}
 	
 	
 	
+	@SuppressWarnings("unchecked")
 	public void onBeforeRender(){
 		super.onBeforeRender();
-		addOrReplace(new Label("total", new Model(FruitShopSession.get().CalcCart())));
+		addOrReplace(new Label("total", new Model(FruitShopSession.get().calcCart())));
 		if (!FruitShopSession.get().getUsername().isEmpty()
-				&& FruitShopSession.get().CalcCart()>0){ 
-			this.get("PayLink").setVisible(true);
+				&& FruitShopSession.get().calcCart()>0){ 
+			this.get("payLink").setVisible(true);
 		} else {
-			this.get("PayLink").setVisible(false);
+			this.get("payLink").setVisible(false);
 		}
 	}
 	
@@ -170,7 +157,7 @@ public class MyCartPage extends BasePage {
 		/* Create Header records */
 		Date date = new Date();
 		System.out.println(dateFormat.format(date));
-		NewOrder.setAmmount(FruitShopSession.get().CalcCart());
+		NewOrder.setAmmount(FruitShopSession.get().calcCart());
 		NewOrder.setDate(date);
 		NewOrder.setStatus(0);
 		NewOrder.setTxn_id("PAY ON DELIVERY");

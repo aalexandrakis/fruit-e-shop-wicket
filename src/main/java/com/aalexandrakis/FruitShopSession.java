@@ -73,7 +73,7 @@ public class FruitShopSession extends WebSession {
 		this.Cart.remove(NewItem);
 	}
 	
-	public Float CalcCart(){
+	public Float calcCart(){
 		Float Summary = 0.0f;
 		Iterator CartIterator = this.Cart.iterator();
 		while(CartIterator.hasNext()){

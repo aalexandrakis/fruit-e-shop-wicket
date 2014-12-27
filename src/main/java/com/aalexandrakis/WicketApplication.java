@@ -100,6 +100,7 @@ public class WicketApplication extends WebApplication
 	    mountPage("where", WherePage.class);
 	    mountPage("addUpdateUser", AddUpdateUserPage.class);
 	    mountPage("resetPassword", ResetPasswordPage.class);
+	    mountPage("myCart", MyCartPage.class);
 	}
 
 

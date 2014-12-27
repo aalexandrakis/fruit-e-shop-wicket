@@ -48,7 +48,7 @@ public class MyCartPanel extends Panel {
 private void Construct(){
 	add(new Image("carticon", "buttons/cart.GIF"));
     add(new Label("CartSummaryText", "Το σύνολο του καλαθιού είναι ")); 
-	add(new Label("CartSummary", new Model(FruitShopSession.get().CalcCart())));			     
+	add(new Label("CartSummary", new Model(FruitShopSession.get().calcCart())));			     
 
 }
 
