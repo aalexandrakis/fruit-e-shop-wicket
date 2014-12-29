@@ -203,7 +203,12 @@ public class BasePage extends WebPage {
 	public List<Order> getOrdersFromUsername() {
 		return WicketApplication.get().getOrdersFromUser();
 	}
+
+	public String getUserEmailById(int id) {
+		return WicketApplication.get().getUserEmailById(id);
+	}
 	
+
 	public List<OrderedItem> getOrderDetails(Integer OrderId) {
 		return WicketApplication.get().getOrderDetails(OrderId);
 	}

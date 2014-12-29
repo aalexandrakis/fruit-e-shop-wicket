@@ -588,7 +588,24 @@ public class WicketApplication extends WebApplication
 					((org.hibernate.Session) session).close();
 					return ReturnList;
 				}
-	}
+		}
+		
+
+		@SuppressWarnings({ "unchecked", "finally" })
+		public String getUserEmailById(int id) {
+			String userEmail = "";
+			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
+			org.hibernate.Session session = sf.openSession(); 
+			try{ 
+				Customer cust = (Customer) session.get(Customer.class, id);
+				userEmail = cust.getEmail();
+			    } catch (HibernateException e) { 
+					e.printStackTrace();
+				}finally {
+					((org.hibernate.Session) session).close();
+					return userEmail;
+				}
+		}
 
 	
 

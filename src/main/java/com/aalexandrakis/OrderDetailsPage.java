@@ -54,7 +54,7 @@ public class OrderDetailsPage extends BasePage {
 	@SuppressWarnings("unchecked")
 	private void construct(){
 		add(new Label("OrderId", Order.getOrderid()));
-		add(new Label("UserName", Order.getUsername()));
+		add(new Label("UserName", getUserEmailById(Order.getCustid())));
 		System.out.print("OrderDate" + Order.getDate() + "\n");
 		add(new Label("Date", dateFormatIso.format(Order.getDate())));
 		add(new Label("StatusDesc", getStatusDesc(Order.getStatus())));
