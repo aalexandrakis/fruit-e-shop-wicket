@@ -1,6 +1,10 @@
 package com.aalexandrakis;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -33,12 +37,30 @@ public class CompleteOrder extends HttpServlet{
 	 @Override
      protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        System.out.println("POST called");
+		resp.setStatus(200);
+		StringBuilder urlBuilder = new StringBuilder();
+		urlBuilder.append("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate");
         for (Object object : req.getParameterMap().keySet()){
         	if (object instanceof String){
 	        	String key = (String) object;
-	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
+	        	urlBuilder.append("&" + key + "=" + req.getParameter(key));
+//	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
         	}
+        }
+        if(!req.getParameter("txn_id").equals("PAY ON DELIVERY")){
+			URL url = new URL(urlBuilder.toString());
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			int responseCode = conn.getResponseCode();
+			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+			StringBuilder stringBuilder = new StringBuilder();
+			String inputLine;
+			while ((inputLine = in.readLine()) != null)
+				stringBuilder.append(inputLine);
+			in.close();
+			if (!stringBuilder.toString().equals("VERIFIED")){
+				System.out.println("INVALID order by user " + req.getParameter("custom"));
+				return;
+			}
         }
         if (req.getParameter("payment_status").equals("Completed")){
         	writeOrder(req);
@@ -49,7 +71,7 @@ public class CompleteOrder extends HttpServlet{
 					"Complete your payment to start proccess your order.");
 			session.close();	
         }
-        resp.setStatus(200);
+        
      }
 	 
 	 protected void writeOrder(HttpServletRequest req){
