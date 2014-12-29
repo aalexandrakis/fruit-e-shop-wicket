@@ -104,6 +104,7 @@ public class WicketApplication extends WebApplication
 	    mountPage("myOrders", OrdersPage.class);	   
 	    mountPage("orderDetails", OrderDetailsPage.class);
 	    mountPage("itemDetails", ItemDetailsPage.class);
+	    mountPage("addUpdateItem", AddUpdateItemPage.class);
 	}
 
 

@@ -62,11 +62,11 @@ public class AddUpdateItemPage extends BasePage {
 		}
 		
         //add(new Label("version", getApplication().getFrameworkSettings().getVersion()));
-		if (!parameters.getNamedKeys().contains("ItemId")){
+		if (!parameters.getNamedKeys().contains("itemId")){
 			add(new Label("PageHeader", "Νέο Προϊόν"));
 		} else {
 			add(new Label("PageHeader", "Διόρθωση Προϊόντος"));
-			ItemId = parameters.get("ItemId").toInteger();
+			ItemId = parameters.get("itemId").toInteger();
 			CurrentItem = getItem(ItemId);
 			if(CurrentItem.getDisplay().equals(1)){
 				isDisplayable=true;
