@@ -7,8 +7,14 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.request.mapper.parameter.PageParameters;
+import org.apache.wicket.validation.validator.PatternValidator;
+import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.HiddenField;
+import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -120,6 +126,61 @@ public class MyCartPage extends BasePage {
 			}
 		};
 		add(payLink.setVisible(!FruitShopSession.get().getCart().isEmpty()));
+		
+		HiddenField paypal_custom = new HiddenField("paypal_custom", Model.of(FruitShopSession.get().getCurrentUser().getCustomerId()));
+		paypal_custom.add(new AttributeModifier("name", "custom"));
+		add(paypal_custom);
+		
+//		Paypal button setup
+		ListView paypalCart = new ListView("paypalCart", new PropertyModel(this, "CartList")){
+			int number = 1; 
+			@Override
+			protected void populateItem(ListItem item) {
+				// TODO Auto-generated method stub
+				CartItem cartitem = (CartItem) item.getModelObject();
+				HiddenField item_number = new HiddenField("item_number", Model.of(cartitem.getItem().getItemid()));
+				item_number.add(new AttributeModifier("name", "item_number_" + number));
+				HiddenField item_name = new HiddenField("item_name", Model.of(cartitem.getItem().getDescr()));
+				item_name.add(new AttributeModifier("name", "item_name_" + number));
+				HiddenField quantity = new HiddenField("quantity", Model.of(cartitem.getQuantity()));
+				quantity.add(new AttributeModifier("name", "quantity_" + number));
+				HiddenField amount = new HiddenField("amount", Model.of(cartitem.getItem().getPrice()));
+				amount.add(new AttributeModifier("name", "amount_" + number));
+				item.add(item_number);
+				item.add(item_name);
+				item.add(quantity);
+				item.add(amount);
+				number++;
+			}
+		};
+		add(paypalCart);
+		SubmitLink paypalBtn = new SubmitLink("paypalBtn"){
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+			@Override
+			public void onSubmit() {
+				// TODO Auto-generated method stub
+//				    if(writeOrder()){
+//				    	FruitShopSession.get().getCart().clear();
+//				    	CartList.clear();
+//				    }
+			}
+			@Override
+			protected void onBeforeRender(){
+				super.onBeforeRender();
+				if (FruitShopSession.get().getCart().isEmpty() ||
+					FruitShopSession.get().getUsername().isEmpty()){
+						setVisible(false);
+					} else {
+						setVisible(true);
+					}
+				
+			}
+
+		};
+		add(paypalBtn.setVisible(!FruitShopSession.get().getCart().isEmpty()));
 	}
 	
 	
@@ -131,8 +192,10 @@ public class MyCartPage extends BasePage {
 		if (!FruitShopSession.get().getUsername().isEmpty()
 				&& FruitShopSession.get().calcCart()>0){ 
 			this.get("payLink").setVisible(true);
+			this.get("paypalBtn").setVisible(true);
 		} else {
 			this.get("payLink").setVisible(false);
+			this.get("paypalBtn").setVisible(false);
 		}
 	}
 	

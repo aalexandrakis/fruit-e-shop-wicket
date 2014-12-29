@@ -57,10 +57,29 @@
 	</div>
 	<div clas="row">
 		<div class="col-lg-2">
-	    	<a href="#" class="btn btn-lg btn-block btn-success" wicket:id="emptyLink"> Empty Cart</a>
+	    	<a href="#" class="btn btn-lg btn-block btn-danger" wicket:id="emptyLink"> Empty Cart</a>
 	    </div>
 	    <div class="col-lg-2">	
 	    	<a href="#" class="btn btn-lg btn-block btn-success" wicket:id="payLink">Pay on delivery</a>
+    	</div>
+    	<div class="col-lg-2">
+    	<form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+			<input type="hidden" name="cmd" value="_cart"></input>
+			<input type="hidden" name="upload" value="1"></input>
+			<input TYPE="hidden" name="charset" value="utf-8"></input>
+			<input type="hidden" name="business" value="aalexandrakis-fruitshop@hotmail.com"></input>
+			<input type="hidden" name="currency_code" value="EUR"></input>
+			<input type="hidden" name="custom" wicket:id="paypal_custom"></input>
+			<input type="hidden" name="return" value="http://fruitshop-aalexandrakis.rhcloud.com"></input>
+			<input type="hidden" name="cancel_return" value="http://fruitshop-aalexandrakis.rhcloud.com/myCart"></input>
+			<div wicket:id="paypalCart">
+				<input type="hidden" wicket:id="item_number"></input>
+				<input type="hidden" wicket:id="item_name"></input>
+				<input type="hidden" wicket:id="quantity"></input>
+				<input type="hidden" wicket:id="amount"></input>
+			</div>
+			<input type="image" wicket:id="paypalBtn" src="https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif" align="left" style="margin-right:7px;"></input>
+			</form>
     	</div>
     </div>
 </div>
