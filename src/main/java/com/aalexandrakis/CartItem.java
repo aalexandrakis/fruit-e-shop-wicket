@@ -30,6 +30,7 @@ public class CartItem implements java.io.Serializable{
 
 	public void setQuantity(float quantity) {
 		this.quantity = quantity;
+		this.mcGross = quantity * this.item.getPrice();
 	}
 
 	public float getMcGross() {

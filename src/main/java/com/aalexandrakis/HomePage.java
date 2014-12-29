@@ -13,8 +13,16 @@ import org.apache.wicket.request.resource.IResource;
 import org.apache.wicket.request.resource.ResourceReference;
 import org.apache.wicket.request.resource.SharedResourceReference;
 import org.apache.wicket.util.file.Folder;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.ajax.markup.html.form.AjaxFallbackButton;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.behavior.Behavior;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
@@ -25,6 +33,7 @@ import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.eclipse.jetty.util.resource.FileResource;
 
 
@@ -32,8 +41,8 @@ public class HomePage extends BasePage {
 	private static final long serialVersionUID = 1L;
     public Integer categoryId=0;
     public String photo="";
-	private Class ItemClass = null;
-    private List<Item> ItemsList = new ArrayList<Item>();
+	private Class itemClass = null;
+    private List<CartItem> itemsList = new ArrayList<CartItem>();
     public HomePage(){
     	super();
     	categoryId=WicketApplication.get().getCategories().get(0).getCategoryid();
@@ -55,61 +64,66 @@ public class HomePage extends BasePage {
 		/*****************************************************/
 		if(FruitShopSession.get().getIsAdmin()==null
 				|| FruitShopSession.get().getIsAdmin()==false){
-				ItemsList = getActiveItems(categoryId);
+				itemsList = getActiveItems(categoryId);
 			} else {
-				ItemsList = getAllItems(categoryId);
+				itemsList = getAllItems(categoryId);
 		}
 		/*****************************************************/
         //add(new Label("CategoryId", CategoryId));
         ListView products
-		= new ListView("products", ItemsList) {
+		= new ListView("products", itemsList) {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			protected void populateItem(ListItem item) {
-				Item CurrentItem = (Item) item.getModelObject();
-					ItemClass = getItemClass();
+				final CartItem currentItem = (CartItem) item.getModelObject();
+					
+					itemClass = getItemClass();
 					String photo="productimg/";
 					//String photo=WicketApplication.get().ImagesPath + "\\productimg\\";
-					if (CurrentItem.getPhoto().isEmpty()){
+					if (currentItem.getItem().getPhoto().isEmpty()){
 						photo += "nophoto.GIF";
 					} else {
-						photo += CurrentItem.getPhoto();
+						photo += currentItem.getItem().getPhoto();
 					}
-					
-					//Image ItemImage = new Image("ItemImage"){};
-					//ItemImage.add(AttributeModifier.replace("src", photo));
-					//item.add(ItemImage);
 					Image itemImage = new Image("itemImage"){};
 					itemImage.add(AttributeModifier.replace("src", photo));
 									//new SharedResourceReference(HomePage.class, photo));
-					item.add(itemImage);
+					//
+					currentItem.setQuantity(FruitShopSession.getItemQuantity(currentItem.getItem().getItemid(), 1.0f));
+					//
+					final TextField txtQuantity = new TextField("quantity", new PropertyModel(currentItem, "quantity"));
+					//
 					PageParameters parameters = new PageParameters();
-					parameters.set("itemId", CurrentItem.getItemid());
+					parameters.set("itemId", currentItem.getItem().getItemid());
 					BookmarkablePageLink itemDetails = new BookmarkablePageLink("itemDetails",
-							                           ItemClass, parameters);
-					item.add(itemDetails);
-					itemDetails.add(new Label("descr", CurrentItem.getDescr()));
-					item.add(new Label("price", "€" + CurrentItem.getPrice().toString()));
-					Link addToCart = new Link("addToCart", item.getModel()){
+							                           itemClass, parameters);
+					//
+					itemDetails.add(new Label("descr", currentItem.getItem().getDescr()));
+					//
+					Label labelPrice = new Label("price", "€" + currentItem.getItem().getPrice().toString());
+					//
+					AjaxSubmitLink addToCart= new AjaxSubmitLink("addToCart"){
 						@Override
-						public void onClick(){
-							Item SelectedItem = (Item) getModelObject();
-							Cart_Item ItemToAdd = new Cart_Item();
-							ItemToAdd.setCategoryid(SelectedItem.getCategoryid());
-						    ItemToAdd.setItemid(SelectedItem.getItemid());
-						    ItemToAdd.setDescr(SelectedItem.getDescr());
-						    ItemToAdd.setMm(SelectedItem.getMm());
-						    ItemToAdd.setPrice(SelectedItem.getPrice());
-						    ItemToAdd.setQuantity(1.0f);
-						    FruitShopSession.get().addToCart(ItemToAdd);
-						    //System.out.print(FruitShopSession.get().CalcCart()+"\n");
+						public void onSubmit(AjaxRequestTarget target, Form<?> form){	
 						}
 					};
-					item.add(addToCart);
-//					addToCart.add(new Image("AddToCartButton",
-//							new SharedResourceReference(HomePage.class, "buttons/addtocart.GIF")));
 					
+					Form form = new Form("form"){
+						@Override
+						protected void onValidate() {
+							// TODO Auto-generated method stub
+							super.onValidate();
+							currentItem.setQuantity(Float.valueOf(txtQuantity.getValue()));
+							FruitShopSession.get().addToCart(currentItem);
+						}
+					};
+					item.add(itemImage);
+					form.add(txtQuantity);
+					form.add(itemDetails);
+					form.add(labelPrice);
+					form.add(addToCart);
+					item.add(form);
 				}
 		};
         
@@ -120,7 +134,7 @@ public class HomePage extends BasePage {
 	@Override
 	protected void onBeforeRender(){
 		super.onBeforeRender();
-		ItemClass = getItemClass();
+		itemClass = getItemClass();
 		//this.CategoryId = CatPanel.getCategoryId();
 	
 	}

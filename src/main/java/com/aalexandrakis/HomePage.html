@@ -61,24 +61,28 @@
 	<div class="row">
        <div class="col-sm-4 col-lg-4 col-md-4" wicket:id="products">
            <div class="thumbnail">
-               <img wicket:id="itemImage"  alt="" style="align:center;height: 130px;width: 130px">
-               <div class="caption">
-               	   <h4 class="pull-right" wicket:id="price">&euro;1.99</h4>
-                   <h4><a href="#" wicket:id="itemDetails"><span class="itemlink" wicket:id="descr">Gouda</span></a>
-                   </h4>
-                   <p>Some product details.</p>
-                   	<a href="#" wicket:id="addToCart" class="btn btn-lg btn-block btn-success">Add to cart</a>
-               </div>
-               <div class="ratings">
-                   <p class="pull-right">15 reviews</p>
-                   <p>
-                       <span class="glyphicon glyphicon-star"></span>
-                       <span class="glyphicon glyphicon-star"></span>
-                       <span class="glyphicon glyphicon-star"></span>
-                       <span class="glyphicon glyphicon-star"></span>
-                       <span class="glyphicon glyphicon-star"></span>
-                   </p>
-               </div>
+           	   <img wicket:id="itemImage"  alt="" style="align:center;height: 130px;width: 130px">
+           	   <form wicket:id = "form">
+	               <div class="caption">
+	               	   <h4 class="pull-right" wicket:id="price">&euro;1.99</h4>
+	               	   <h4><a href="#" wicket:id="itemDetails"><span class="itemlink" wicket:id="descr">Gouda</span></a>
+	                   </h4>
+	                   <span>Quantity</span>
+	               	   <input type="text" class="pull-right" style="text-align:right" wicket:id="quantity" size="5"></input>
+	                   <p>Some product details.</p>
+	                   <input type="submit" wicket:id="addToCart" class="btn btn-sm btn-block btn-success" value="Add to cart"></input>
+	               </div>
+	               <div class="ratings">
+	                   <p class="pull-right">15 reviews</p>
+	                   <p>
+	                       <span class="glyphicon glyphicon-star"></span>
+	                       <span class="glyphicon glyphicon-star"></span>
+	                       <span class="glyphicon glyphicon-star"></span>
+	                       <span class="glyphicon glyphicon-star"></span>
+	                       <span class="glyphicon glyphicon-star"></span>
+	                   </p>
+	               </div>
+               </form>
            </div>
        </div>
    </div>

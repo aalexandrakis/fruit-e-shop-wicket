@@ -25,7 +25,7 @@ public class BasePage extends WebPage {
 	public boolean isLoggedIn;
 	int cartItems = 0;
 	Label cartItemsCount = new Label("cartItemsCount", Model.of(cartItems));
-	ListView<Cart_Item> cartList;
+	ListView<CartItem> cartList;
 	Label emptyCart = new Label("emptyCart", "Your cart is empty");
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	BookmarkablePageLink myCartLink = new BookmarkablePageLink("myCartLink",
@@ -67,10 +67,10 @@ public class BasePage extends WebPage {
 		myOrdersLink.setVisible(!FruitShopSession.get().getUsername().isEmpty());
 		add(myOrdersLink);
 //		
-		LoadableDetachableModel<ArrayList<Cart_Item>> cartModel = new LoadableDetachableModel<ArrayList<Cart_Item>>() {
+		LoadableDetachableModel<ArrayList<CartItem>> cartModel = new LoadableDetachableModel<ArrayList<CartItem>>() {
 
 			@Override
-			protected ArrayList<Cart_Item> load() {
+			protected ArrayList<CartItem> load() {
 				// TODO Auto-generated method stub
 				return FruitShopSession.get().getCart();
 			}
@@ -84,16 +84,16 @@ public class BasePage extends WebPage {
 		refreshCartItems();
 		cartItemsCount.setVisible(cartItems > 0);
 		add(cartItemsCount);
-		cartList = new ListView<Cart_Item>("cartList", cartModel){
+		cartList = new ListView<CartItem>("cartList", cartModel){
 			/**
 			 * 
 			 */
 			private static final long serialVersionUID = 1L;
 			@Override
-			protected void populateItem(ListItem<Cart_Item> item) {
+			protected void populateItem(ListItem<CartItem> item) {
 				// TODO Auto-generated method stub
-				Cart_Item cartItem = (Cart_Item) item.getModelObject();
-				Label itemDescr = new Label("itemDescr", Model.of(cartItem.getDescr()));
+				CartItem cartItem = (CartItem) item.getModelObject();
+				Label itemDescr = new Label("itemDescr", Model.of(cartItem.getItem().getDescr()));
 				Label itemQuantity = new Label("itemQuantity", Model.of(cartItem.getQuantity()));
 				item.add(itemDescr);
 				item.add(itemQuantity);
@@ -177,8 +177,12 @@ public class BasePage extends WebPage {
 		return WicketApplication.get().getItems(CategoryId);
 	}
 	
-	public List<Item> getActiveItems(Integer CategoryId) {
-		return WicketApplication.get().getActiveItems(CategoryId);
+	public List<CartItem> getActiveItems(Integer CategoryId) {
+		List<CartItem> cartList = new ArrayList<CartItem>();
+		for (Item item : WicketApplication.get().getActiveItems(CategoryId)){
+			cartList.add(new CartItem(item, 0f, 0f));
+		}
+		return cartList;
 	}
 	
 	public Item getItem(Integer ItemId) {
@@ -228,8 +232,12 @@ public class BasePage extends WebPage {
 		return WicketApplication.get().AddOrUpdateItem(CurItem);
 	}
 	
-	public List<Item> getAllItems(Integer CategoryId) {
-		return WicketApplication.get().getAllItems(CategoryId);
+	public List<CartItem> getAllItems(Integer CategoryId) {
+		List<CartItem> cartList = new ArrayList<CartItem>();
+		for (Item item : WicketApplication.get().getAllItems(CategoryId)){
+			cartList.add(new CartItem(item, 0f, 0f));
+		}
+		return cartList;
 	}
 	
 	public String getStatusDesc(Integer status){

@@ -19,7 +19,7 @@ import org.apache.wicket.model.PropertyModel;
 
 public class MyCartPage extends BasePage {
 	private static final long serialVersionUID = 1L;
-	private List<Cart_Item> CartList = new ArrayList<Cart_Item>(FruitShopSession.get().getCart()); 
+	private List<CartItem> CartList = new ArrayList<CartItem>(FruitShopSession.get().getCart()); 
     public MyCartPage(final PageParameters parameters) {
 		super(parameters);
         //add(new Label("version", getApplication().getFrameworkSettings().getVersion()));
@@ -39,14 +39,14 @@ public class MyCartPage extends BasePage {
 
 		@Override
 		protected void populateItem(ListItem item) {
-			Cart_Item cartitem = (Cart_Item) item.getModelObject();
-			item.add(new Label("itemid", cartitem.getItemid()));
-			item.add(new Label("descr", cartitem.getDescr()));
-			item.add(new Label("mm", cartitem.getMm()));
+			CartItem cartitem = (CartItem) item.getModelObject();
+			item.add(new Label("itemid", cartitem.getItem().getItemid()));
+			item.add(new Label("descr", cartitem.getItem().getDescr()));
+			item.add(new Label("mm", cartitem.getItem().getMm()));
 //			item.add(new Label("category", getCategory(cartitem.getCategoryid()).getCategory()));
-			item.add(new Label("price",  cartitem.getPrice()));
+			item.add(new Label("price",  cartitem.getItem().getPrice()));
 			item.add(new Label("quantity", cartitem.getQuantity()));
-			item.add(new Label("summary",  cartitem.getSummary()));
+			item.add(new Label("summary",  cartitem.getMcGross()));
 			//item.add(removeLink("remove", item));
 			Link removeLink = new Link("remove", item.getModel()){
 				/**
@@ -57,7 +57,7 @@ public class MyCartPage extends BasePage {
 				@Override
 				public void onClick() {
 					// TODO Auto-generated method stub
-					Cart_Item selected =  (Cart_Item) getModelObject();
+					CartItem selected =  (CartItem) getModelObject();
 					if(FruitShopSession.get().getCart().contains(selected)){
 						FruitShopSession.get().getCart().remove(selected);
 						CartList.remove(selected);
@@ -145,11 +145,11 @@ public class MyCartPage extends BasePage {
 		Iterator CartIterator = FruitShopSession.get().getCart().iterator();
 		while (CartIterator.hasNext()){
 			OrderedItem OrderedItem = new OrderedItem();
-			Cart_Item CartItem = new Cart_Item();
-			CartItem = (Cart_Item) CartIterator.next();
-			OrderedItem.setItemid(CartItem.getItemid());
+			CartItem CartItem = new CartItem();
+			CartItem = (CartItem) CartIterator.next();
+			OrderedItem.setItemid(CartItem.getItem().getItemid());
 			OrderedItem.setOrderid(0);
-			OrderedItem.setPrice(CartItem.getPrice());
+			OrderedItem.setPrice(CartItem.getItem().getPrice());
 			OrderedItem.setQuantity(CartItem.getQuantity());
 			NewOrderedItems.add(OrderedItem);
 			System.out.print("Before call " + NewOrderedItems.size() + "\n");

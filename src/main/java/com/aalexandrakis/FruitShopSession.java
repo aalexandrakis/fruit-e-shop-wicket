@@ -15,7 +15,7 @@ public class FruitShopSession extends WebSession {
 	private static final long serialVersionUID = 1L;
 	private String username="";
 	private Boolean isAdmin=false;
-	private ArrayList<Cart_Item> Cart = new ArrayList<Cart_Item>();
+	private static ArrayList<CartItem> Cart = new ArrayList<CartItem>();
 	private Customer CurrentUser = new Customer();
 	
 	
@@ -44,7 +44,7 @@ public class FruitShopSession extends WebSession {
 		this.CurrentUser = User;
 	}
 	
-	public ArrayList<Cart_Item> getCart(){
+	public ArrayList<CartItem> getCart(){
 		return this.Cart;
 	}
 	
@@ -52,33 +52,31 @@ public class FruitShopSession extends WebSession {
 		this.Cart.clear();
 	}
 	
-	public void addToCart(Cart_Item NewItem){
-		Iterator CartIterator = this.Cart.iterator();
+	public void addToCart(CartItem newItem){
 		Boolean exists = false;
-		while(CartIterator.hasNext()){
-			Cart_Item CurrentItem = (Cart_Item) CartIterator.next();
-			if (CurrentItem.getItemid().equals(NewItem.getItemid())){
-				CurrentItem.setPrice(NewItem.getPrice());
-				CurrentItem.setQuantity(NewItem.getQuantity());
+		for (CartItem item : Cart){
+			if (item.getItem().getItemid().equals(newItem.getItem().getItemid())){
+				item.setQuantity(newItem.getQuantity());
 				exists = true;
 			}
 		}
+		
 		if (!exists){
-			this.Cart.add(NewItem);
+			Cart.add(newItem);
 		}
 		
 	}
 	
-	public void removeFromCart(Cart_Item NewItem){
-		this.Cart.remove(NewItem);
+	public void removeFromCart(CartItem newItem){
+		this.Cart.remove(newItem);
 	}
 	
 	public Float calcCart(){
 		Float Summary = 0.0f;
 		Iterator CartIterator = this.Cart.iterator();
 		while(CartIterator.hasNext()){
-			Cart_Item CurrentItem = (Cart_Item) CartIterator.next();
-			Summary += CurrentItem.getPrice() * CurrentItem.getQuantity();
+			CartItem CurrentItem = (CartItem) CartIterator.next();
+			Summary += CurrentItem.getMcGross();
 		}
 		return Summary;
 	}
@@ -88,7 +86,14 @@ public class FruitShopSession extends WebSession {
 		return (FruitShopSession)Session.get();     
 	} 
 	
-	
+	public static Float getItemQuantity(int itemId, Float valueIfNotExists){
+		for (CartItem item : Cart){
+			if (item.getItem().getItemid().equals(itemId)){
+				return item.getQuantity();
+			}
+		}
+		return valueIfNotExists;
+	}
 }
 
 

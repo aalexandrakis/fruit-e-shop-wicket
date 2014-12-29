@@ -20,7 +20,7 @@ public class ItemDetailsPage extends BasePage {
 	private static final long serialVersionUID = 1L;
     private Integer itemid;
     private Item SelectedItem;
-    Cart_Item ItemToAdd = new Cart_Item();
+    CartItem ItemToAdd = new CartItem();
     
 
 	public ItemDetailsPage(final PageParameters parameters) {
@@ -29,11 +29,11 @@ public class ItemDetailsPage extends BasePage {
 		itemid = parameters.get("ItemId").toInteger();
 		SelectedItem = getItem(itemid);
 		
-		ItemToAdd.setCategoryid(SelectedItem.getCategoryid());
-	    ItemToAdd.setItemid(SelectedItem.getItemid());
-	    ItemToAdd.setDescr(SelectedItem.getDescr());
-	    ItemToAdd.setMm(SelectedItem.getMm());
-	    ItemToAdd.setPrice(SelectedItem.getPrice());
+		ItemToAdd.getItem().setCategoryid(SelectedItem.getCategoryid());
+	    ItemToAdd.getItem().setItemid(SelectedItem.getItemid());
+	    ItemToAdd.getItem().setDescr(SelectedItem.getDescr());
+	    ItemToAdd.getItem().setMm(SelectedItem.getMm());
+	    ItemToAdd.getItem().setPrice(SelectedItem.getPrice());
 	    
 	    
 		String photo = "/productimg/";
@@ -42,7 +42,7 @@ public class ItemDetailsPage extends BasePage {
 		} else {
 			photo += SelectedItem.getPhoto();
 		}
-        final Form BuyNow = new Form("BuyNow", new CompoundPropertyModel<Cart_Item>(ItemToAdd));
+        final Form BuyNow = new Form("BuyNow", new CompoundPropertyModel<CartItem>(ItemToAdd));
         
         add(BuyNow);
         //setDefaultModel(new CompoundPropertyModel(ItemToAdd));
@@ -68,7 +68,7 @@ public class ItemDetailsPage extends BasePage {
 				FruitShopSession.get().addToCart(ItemToAdd);
 				System.out.print(FruitShopSession.get().calcCart());
 				PageParameters parameters = new PageParameters();
-				parameters.set("CategoryId", ItemToAdd.getCategoryid());
+				parameters.set("CategoryId", ItemToAdd.getItem().getCategoryid());
 				setResponsePage(HomePage.class, parameters);
 			}
 		};
