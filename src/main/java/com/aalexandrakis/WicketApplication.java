@@ -103,6 +103,7 @@ public class WicketApplication extends WebApplication
 	    mountPage("myCart", MyCartPage.class);
 	    mountPage("myOrders", OrdersPage.class);	   
 	    mountPage("orderDetails", OrderDetailsPage.class);
+	    mountPage("itemDetails", ItemDetailsPage.class);
 	}
 
 

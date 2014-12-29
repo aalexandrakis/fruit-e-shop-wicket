@@ -1,46 +1,63 @@
 <wicket:extend>
-<br>
-<form wicket:id="BuyNow" name="BuyNow">
-<div wicket:id="feedback" class="feedback"></div> 
-       <table>
-         <tr>
-		    <td>
-				<img wicket:id="ItemPhoto" alt="Item Photo" height="300" width="300">
-	    	</td>
-            <td>
-	       		<table>
-		       		<tr>
-		         		<td wicket:id="ItemIdHeader"> </td>
-		         		<td><input type="text" wicket:id="itemid" readonly=true/></td>
-		       		</tr>
-		       		<tr>
-		         		<td wicket:id="ItemDescrHeader"></td>
-		         		<td> <input type="text" wicket:id="descr" readonly=true/></td>
-		       		</tr>
-		       		<tr>
-		         		<td wicket:id="ItemCatHeader">  </td>
-		         		<td> <input type="text" wicket:id="ItemCat" readonly=true/></td>
-		       		</tr>
-		       		<tr>
-		         		<td wicket:id="ItemMmHeader"> </td>
-		         		<td> <input type="text" wicket:id="mm" readonly=true/></td>
-		       		</tr>
-		       		<tr>
-		         		<td wicket:id="ItemPriceHeader"></td>
-		         		<td> <input type="number" wicket:id="price" readonly=true style="text-align:right;"/></td>
-		       		</tr>
-		       		<tr>
-		         		<td wicket:id="QuantityHeader"> </td>
-		         		<td> <input type="number"  wicket:id="quantity" style="text-align:right;"/></td>
-		       		</tr>
-		       		<tr>
-                     	<td>
-		             		<a href="#" wicket:id="AddToCart"><img wicket:id="AddToCartButton" style="border-style: none;"/></a>
-                         </td>
-                     </tr>   	
-  	      		</table>
-            </td>
-         </tr>
-       </table>
-     </form>  
+<div class="row">
+  <div class="col-md-4">
+  	<img wicket:id="itemPhoto" alt="Item Photo" height="300" width="300">
+  </div>	
+  <div class="col-md-4">
+  	<div wicket:id="errorMessages" class="alert alert-danger"></div>
+     <div class="login-panel panel panel-default" style="margin-top: 0">
+       <div class="panel-heading">
+         Item Details
+       </div>
+       <div class=panel-body>
+          <form class="form-horizontal" wicket:id="BuyNow" name="BuyNow">
+            <fieldset>
+              <div class="form-group">
+                <div class="col-md-12">
+                	<label wicket:id="ItemIdHeader" class="control-label"> </label>
+                  <input class="form-control" type="text" wicket:id="item.itemid" readonly=true>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                	<label wicket:id="ItemDescrHeader" class="control-label"> </label>
+                  <input class="form-control" type="text" wicket:id="item.descr" readonly=true>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                	<label wicket:id="ItemCatHeader" class="control-label"> </label>
+                  <input class="form-control" type="text" wicket:id="ItemCat" readonly=true>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                	<label wicket:id="ItemMmHeader" class="control-label"> </label>
+                  <input class="form-control" type="text" wicket:id="item.mm" readonly=true>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                	<label wicket:id="ItemPriceHeader" class="control-label"> </label>
+                  <input class="form-control" type="number" wicket:id="item.price" readonly=true style="text-align:right;">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-12">
+                	<label wicket:id="QuantityHeader" class="control-label"> </label>
+                  <input class="form-control" type="number"  wicket:id="quantity" style="text-align:right;">
+                 </div>
+               </div>
+			<div class="form-group">
+               	<div class="col-md-4">
+               		<a href="#" wicket:id="AddToCart" class="btn btn-success">Add To Cart</a>
+				</div>
+			</div>
+		</fieldset>                
+  		</form>
+	</div>
+     </div>
+   </div>
+</div>
+  
 </wicket:extend>

@@ -19,63 +19,69 @@ import org.apache.wicket.model.PropertyModel;
 public class ItemDetailsPage extends BasePage {
 	private static final long serialVersionUID = 1L;
     private Integer itemid;
-    private Item SelectedItem;
-    CartItem ItemToAdd = new CartItem();
-    
+    private Item selectedItem;
+    CartItem itemToAdd = new CartItem();
+    FeedbackPanel errorMessages = new FeedbackPanel("errorMessages");
 
 	public ItemDetailsPage(final PageParameters parameters) {
 		super(parameters);
-		//add(new Label("version", getApplication().getFrameworkSettings().getVersion()));
-		itemid = parameters.get("ItemId").toInteger();
-		SelectedItem = getItem(itemid);
-		
-		ItemToAdd.getItem().setCategoryid(SelectedItem.getCategoryid());
-	    ItemToAdd.getItem().setItemid(SelectedItem.getItemid());
-	    ItemToAdd.getItem().setDescr(SelectedItem.getDescr());
-	    ItemToAdd.getItem().setMm(SelectedItem.getMm());
-	    ItemToAdd.getItem().setPrice(SelectedItem.getPrice());
+		itemid = parameters.get("itemId").toInteger();
+		selectedItem = getItem(itemid);
+		itemToAdd.getItem().setCategoryid(selectedItem.getCategoryid());
+	    itemToAdd.getItem().setItemid(selectedItem.getItemid());
+	    itemToAdd.getItem().setDescr(selectedItem.getDescr());
+	    itemToAdd.getItem().setMm(selectedItem.getMm());
+	    itemToAdd.getItem().setPrice(selectedItem.getPrice());
 	    
-	    
-		String photo = "/productimg/";
-		if (SelectedItem.getPhoto().isEmpty()){
-			photo += "nophoto.GIF";
+		String photo = "productimg/";
+		if (selectedItem.getPhoto().isEmpty()){
+			photo += "nophoto.jpg";
 		} else {
-			photo += SelectedItem.getPhoto();
+			photo += selectedItem.getPhoto();
 		}
-        final Form BuyNow = new Form("BuyNow", new CompoundPropertyModel<CartItem>(ItemToAdd));
-        
-        add(BuyNow);
-        //setDefaultModel(new CompoundPropertyModel(ItemToAdd));
-        BuyNow.add(new FeedbackPanel("feedback"));
-        BuyNow.add(new Image("ItemPhoto"){}.add(AttributeModifier.replace("src", photo)));
-		BuyNow.add(new Label("ItemIdHeader", "Κωδικός"));
-		BuyNow.add(new TextField("itemid"));
-		BuyNow.add(new Label("ItemDescrHeader", "Περιγραφή"));
-		BuyNow.add(new TextField("descr"));
-		BuyNow.add(new Label("ItemMmHeader", "Μον.Μέτρησης"));
-		BuyNow.add(new TextField("mm"));
-		BuyNow.add(new Label("ItemCatHeader", "Κατηγορία"));
-		BuyNow.add(new TextField("ItemCat", new Model(getCategory(SelectedItem.getCategoryid()).getCategory())));
-		BuyNow.add(new Label("ItemPriceHeader", "Τιμή"));
-		BuyNow.add(new NumberTextField("price"));
-		BuyNow.add(new Label("QuantityHeader", "Ποσότητα"));
-		BuyNow.add(new NumberTextField("quantity").setRequired(true));
+        final Form buyNow = new Form("BuyNow", new CompoundPropertyModel<CartItem>(itemToAdd));
+        add(errorMessages);
+        errorMessages.setVisible(errorMessages.anyMessage());
+        Image itemPhoto = new Image("itemPhoto"){};
+		itemPhoto.add(AttributeModifier.replace("src", photo));
+        add(itemPhoto);
+        add(buyNow);
+        buyNow.add(new Label("ItemIdHeader", "Item Code"));
+		buyNow.add(new TextField("item.itemid"));
+		buyNow.add(new Label("ItemDescrHeader", "Description"));
+		buyNow.add(new TextField("item.descr"));
+		buyNow.add(new Label("ItemMmHeader", "Metric unit"));
+		buyNow.add(new TextField("item.mm"));
+		buyNow.add(new Label("ItemCatHeader", "Category"));
+		buyNow.add(new TextField("ItemCat", new Model(getCategory(selectedItem.getCategoryid()).getCategory())));
+		buyNow.add(new Label("ItemPriceHeader", "Price"));
+		buyNow.add(new NumberTextField("item.price"));
+		buyNow.add(new Label("QuantityHeader", "Quantity"));
+		buyNow.add(new NumberTextField("quantity").setRequired(true));
 		SubmitLink AddToCart = new SubmitLink("AddToCart"){
 			@Override
 			public void onSubmit(){
 				//System.out.print(SelectedItem.getItemid());
 				//ItemToAdd.setQuantity(1.0f);
-				FruitShopSession.get().addToCart(ItemToAdd);
+				FruitShopSession.get().addToCart(itemToAdd);
 				System.out.print(FruitShopSession.get().calcCart());
 				PageParameters parameters = new PageParameters();
-				parameters.set("CategoryId", ItemToAdd.getItem().getCategoryid());
+				parameters.set("CategoryId", itemToAdd.getItem().getCategoryid());
 				setResponsePage(HomePage.class, parameters);
 			}
 		};
-        AddToCart.add(new Image("AddToCartButton", "buttons/addtocart.GIF"));
-        BuyNow.add(AddToCart);
+        buyNow.add(AddToCart);
 		// TODO Add your page's components here
 
     }
+
+
+	@Override
+	protected void onBeforeRender() {
+		// TODO Auto-generated method stub
+		super.onBeforeRender();
+ 		errorMessages.setVisible(errorMessages.anyMessage());
+	}
+	
 	
 	}

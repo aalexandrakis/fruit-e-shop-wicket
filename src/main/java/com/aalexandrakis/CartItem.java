@@ -8,7 +8,9 @@ public class CartItem implements java.io.Serializable{
     private float quantity;
     private float mcGross;
     
-    public CartItem() { }
+    public CartItem() {
+    	item = new Item();
+    }
     
     public CartItem(Item item, float quantity, float mcGross){
     	this.item = item;
