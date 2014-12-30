@@ -114,29 +114,23 @@ public class WicketApplication extends WebApplication
 	
 	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Items_Category> getCategories() {
-		List<Items_Category> Categories = null;
+		List<Items_Category> Categories = new ArrayList<Items_Category>();
 		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
 		org.hibernate.Session session = sf.openSession(); 
-		Transaction tx = null;
 		try{ 
-			tx = session.beginTransaction();
 			String hql = "From Items_Category";
 			Query q = session.createQuery(hql);
 			//		  .setString("email", Email.getInput().toString())
 			//		  .setString("password", Sha1.getHash(Password.getInput().toString()));
 			//info(Sha1.getHash(Password.getInput().toString()));
 			Categories = q.list();
-			tx.commit();
-			
+			return Categories;
 		    } catch (HibernateException e) { 
-				if (tx!=null) tx.rollback();
 				e.printStackTrace(); 
 			}finally {
 				((org.hibernate.Session) session).close();
-				return Collections.unmodifiableList(Categories);
 			}
-
-		
+			return Categories;
 	}
 	
 	@SuppressWarnings({ "finally", "unchecked" })
