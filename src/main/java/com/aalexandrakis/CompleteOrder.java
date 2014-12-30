@@ -44,13 +44,14 @@ public class CompleteOrder extends HttpServlet{
         	if (object instanceof String){
 	        	String key = (String) object;
 	        	urlBuilder.append("&" + key + "=" + req.getParameter(key));
-//	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
+	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
         	}
         }
         if(!req.getParameter("txn_id").equals("PAY ON DELIVERY")){
-			URL url = new URL(urlBuilder.toString());
+        	URL url = new URL(urlBuilder.toString());
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 			int responseCode = conn.getResponseCode();
+			System.out.println("response code : " + responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 			StringBuilder stringBuilder = new StringBuilder();
 			String inputLine;
