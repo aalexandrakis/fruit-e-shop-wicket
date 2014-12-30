@@ -38,18 +38,23 @@ public class CompleteOrder extends HttpServlet{
      protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 		resp.setStatus(200);
-		StringBuilder urlBuilder = new StringBuilder();
-		urlBuilder.append("https://www.sandbox.paypal.com/cgi-bin/webscr?cmd=_notify-validate");
-        for (Object object : req.getParameterMap().keySet()){
+		StringBuilder parms = new StringBuilder();
+		parms.append("cmd=_notify-validate");
+		for (Object object : req.getParameterMap().keySet()){
         	if (object instanceof String){
 	        	String key = (String) object;
-	        	urlBuilder.append("&" + key + "=" + req.getParameter(key));
+	        	parms.append("&" + key + "=" + req.getParameter(key));
 	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
         	}
         }
         if(!req.getParameter("txn_id").equals("PAY ON DELIVERY")){
-        	URL url = new URL(urlBuilder.toString());
+        	URL url = new URL("https://www.sandbox.paypal.com/cgi-bin/webscr");
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.addRequestProperty("Method", "POST");
+			conn.addRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+			conn.addRequestProperty("Content-Length", String.valueOf(parms.length()));
+			conn.setDoOutput(true);
+			conn.getOutputStream().write(parms.toString().getBytes());
 			int responseCode = conn.getResponseCode();
 			System.out.println("response code : " + responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
