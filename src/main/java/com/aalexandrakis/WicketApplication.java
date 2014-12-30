@@ -154,10 +154,8 @@ public class WicketApplication extends WebApplication
 				e.printStackTrace(); 
 			}finally {
 				((org.hibernate.Session) session).close();
-				return Collections.unmodifiableList(Items);
+				return Items;
 			}
-
-		
 	}
 	
 	@SuppressWarnings({ "finally", "unchecked" })
@@ -181,7 +179,7 @@ public class WicketApplication extends WebApplication
 				e.printStackTrace(); 
 			}finally {
 				((org.hibernate.Session) session).close();
-				return Collections.unmodifiableList(Items);
+				return Items;
 			}
 
 		
@@ -208,7 +206,7 @@ public class WicketApplication extends WebApplication
 				e.printStackTrace(); 
 			}finally {
 				((org.hibernate.Session) session).close();
-				return Collections.unmodifiableList(Items);
+				return Items;
 			}
 
 		
