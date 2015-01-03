@@ -17,6 +17,7 @@ import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.RuntimeConfigurationType;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.IPackageResourceGuard;
 import org.apache.wicket.markup.html.SecurePackageResourceGuard;
@@ -42,7 +43,7 @@ import org.hibernate.Transaction;
 public class WicketApplication extends WebApplication
 {   
 	private String bussiness_email = System.getenv("HOTMAIL");
-	
+
 	//public ServletContext context=null; 
 	public String ImagesPath;
 	public String ProductImgPath;
@@ -105,11 +106,19 @@ public class WicketApplication extends WebApplication
 	    mountPage("orderDetails", OrderDetailsPage.class);
 	    mountPage("itemDetails", ItemDetailsPage.class);
 	    mountPage("addUpdateItem", AddUpdateItemPage.class);
+	    mountPage("orderCompleted", OrderCompleted.class);
 	}
 
 
 	public static WicketApplication get() {
 		return (WicketApplication) Application.get();
+	}
+	
+	
+	@Override
+	public RuntimeConfigurationType getConfigurationType() {
+		// TODO Auto-generated method stub
+		return RuntimeConfigurationType.DEPLOYMENT;
 	}
 	
 	@SuppressWarnings({ "finally", "unchecked" })
@@ -128,7 +137,7 @@ public class WicketApplication extends WebApplication
 		    } catch (HibernateException e) { 
 				e.printStackTrace(); 
 			}finally {
-				((org.hibernate.Session) session).close();
+				session.close();
 			}
 			return Categories;
 	}
@@ -153,7 +162,7 @@ public class WicketApplication extends WebApplication
 				if (tx!=null) tx.rollback();
 				e.printStackTrace(); 
 			}finally {
-				((org.hibernate.Session) session).close();
+				session.close();
 				return Items;
 			}
 	}
@@ -178,7 +187,7 @@ public class WicketApplication extends WebApplication
 				if (tx!=null) tx.rollback();
 				e.printStackTrace(); 
 			}finally {
-				((org.hibernate.Session) session).close();
+				session.close();
 				return Items;
 			}
 
@@ -205,7 +214,7 @@ public class WicketApplication extends WebApplication
 				if (tx!=null) tx.rollback();
 				e.printStackTrace(); 
 			}finally {
-				((org.hibernate.Session) session).close();
+				session.close();
 				return Items;
 			}
 
@@ -232,7 +241,7 @@ public class WicketApplication extends WebApplication
 				if (tx!=null) tx.rollback();
 				e.printStackTrace(); 
 			}finally {
-				((org.hibernate.Session) session).close();
+				session.close();
 				return SelectedItem;
 			}
 	    }
@@ -257,7 +266,7 @@ public class WicketApplication extends WebApplication
 					if (tx!=null) tx.rollback();
 					e.printStackTrace(); 
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 					return SelectedCategory;
 				}
 
@@ -286,7 +295,7 @@ public class WicketApplication extends WebApplication
 					e.printStackTrace();
 					return false;
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 				}
 
 	}
@@ -310,7 +319,7 @@ public class WicketApplication extends WebApplication
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 					return ReturnList;
 				}
 	}
@@ -332,7 +341,7 @@ public class WicketApplication extends WebApplication
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 					return ReturnList;
 				}
 	}
@@ -355,7 +364,7 @@ public class WicketApplication extends WebApplication
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 					return ReturnOrder;
 				}
 	}
@@ -391,7 +400,7 @@ public class WicketApplication extends WebApplication
 					e.printStackTrace();
 					return false;
 				} finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 				}
 		}
 		
@@ -457,7 +466,7 @@ public class WicketApplication extends WebApplication
 					e.printStackTrace();
 					return false;
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 				}
 
 		}
@@ -482,7 +491,7 @@ public class WicketApplication extends WebApplication
 					e.printStackTrace();
 					return true;
 				} finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 				}
 		}
 		
@@ -500,7 +509,7 @@ public class WicketApplication extends WebApplication
 					e.printStackTrace();
 					return false;
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 				}
 
 		}
@@ -519,7 +528,7 @@ public class WicketApplication extends WebApplication
 					e.printStackTrace();
 					return false;
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 				}
 		}
 
@@ -539,7 +548,7 @@ public class WicketApplication extends WebApplication
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 					return ReturnList;
 				}
 	}
@@ -558,7 +567,7 @@ public class WicketApplication extends WebApplication
 					e.printStackTrace();
 					return false;
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 				}
 
 		}
@@ -579,7 +588,7 @@ public class WicketApplication extends WebApplication
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 					return ReturnList;
 				}
 		}
@@ -596,7 +605,7 @@ public class WicketApplication extends WebApplication
 			    } catch (HibernateException e) { 
 					e.printStackTrace();
 				}finally {
-					((org.hibernate.Session) session).close();
+					session.close();
 					return userEmail;
 				}
 		}

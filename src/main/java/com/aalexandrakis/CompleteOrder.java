@@ -29,7 +29,7 @@ public class CompleteOrder extends HttpServlet{
 	 @Override
      protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
-        System.out.println("GET called");
+//        System.out.println("GET called");
         resp.setStatus(200);
         resp.getWriter().append("TEST SERVLET CALL");
      }
@@ -44,7 +44,7 @@ public class CompleteOrder extends HttpServlet{
         	if (object instanceof String){
 	        	String key = (String) object;
 	        	parms.append("&" + key + "=" + req.getParameter(key));
-	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
+//	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
         	}
         }
         if(!req.getParameter("txn_id").equals("PAY ON DELIVERY")){
@@ -56,7 +56,7 @@ public class CompleteOrder extends HttpServlet{
 			conn.setDoOutput(true);
 			conn.getOutputStream().write(parms.toString().getBytes());
 			int responseCode = conn.getResponseCode();
-			System.out.println("response code : " + responseCode);
+//			System.out.println("response code : " + responseCode);
 			BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
 			StringBuilder stringBuilder = new StringBuilder();
 			String inputLine;
@@ -66,7 +66,10 @@ public class CompleteOrder extends HttpServlet{
 			if (!stringBuilder.toString().equals("VERIFIED")){
 				System.out.println("INVALID order by user " + req.getParameter("custom"));
 				return;
+			} else {
+				System.out.println("VALID order by user " + req.getParameter("custom"));
 			}
+			conn.disconnect();
         }
         if (req.getParameter("payment_status").equals("Completed")){
         	writeOrder(req);
@@ -81,10 +84,11 @@ public class CompleteOrder extends HttpServlet{
      }
 	 
 	 protected void writeOrder(HttpServletRequest req){
+//		 System.out.println("in write order");
 		 for (Object object : req.getParameterMap().keySet()){
         	if (object instanceof String){
 	        	String key = (String) object;
-	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
+//	        	System.out.println("Parm => " + key + " value => " + req.getParameter(key));
         	}
         }
 		String cartItemsString = req.getParameter("num_cart_items");
@@ -97,14 +101,17 @@ public class CompleteOrder extends HttpServlet{
 			}
 		}
 		List<CartItem> cart = new ArrayList<CartItem>();
+//		System.out.println("cart items = " + cartItems);
 		if (cartItems == 0){
-			cart.add(new CartItem(new Item(Integer.valueOf(req.getParameter("item_number")), req.getParameter("item_name"), null, null, null, null, null, null)
+			cart.add(new CartItem(new Item(Integer.valueOf(req.getParameter("item_number")), "", null, null, null, null, null, null)
 						, Float.valueOf(req.getParameter("quantity")), Float.valueOf(req.getParameter("mc_gross"))));
 		} else {
+//			System.out.println("in write order cart items");
 			for (int i=1; i <= cartItems; i++){
 				String num = String.valueOf(i);
-				cart.add(new CartItem(new Item(Integer.valueOf(req.getParameter("item_number" + num)), req.getParameter("item_name" + num), null, null, null, null, null, null)
-				, Float.valueOf(req.getParameter("quantity" + num)), Float.valueOf(req.getParameter("mc_gross" + num))));
+//				System.out.println("item" + num + " " + req.getParameter("item_number" + num) + " " + req.getParameter("mc_gross" + num));
+				cart.add(new CartItem(new Item(Integer.valueOf(req.getParameter("item_number" + num)), "", null, null, null, null, null, null)
+				, Float.valueOf(req.getParameter("quantity" + num)), Float.valueOf(req.getParameter("mc_gross_" + num))));
 			}
 		}
 		int custId = Integer.valueOf(req.getParameter("custom"));
@@ -116,6 +123,7 @@ public class CompleteOrder extends HttpServlet{
 			session.save(order);
 			msg.append(order.toString() + "\n");
 			for (CartItem cartItem : cart){
+//				System.out.println("ordered item " + cartItem.getItem().getDescr());
 				float price = cartItem.getMcGross() / cartItem.getQuantity();
 				OrderedItem orderedItem = new OrderedItem(order.getOrderid(), 
 															  cartItem.getItem().getItemid(),
@@ -126,11 +134,13 @@ public class CompleteOrder extends HttpServlet{
 				msg.append(orderedItem.toString() + "\n");
 			}
 			tx.commit();
+//			System.out.println("commit ");
 			Customer cust = (Customer) session.get(Customer.class, custId);
 			WicketApplication.SendMail(System.getenv("HOTMAIL"), "New order from " + cust.getEmail(), msg.toString());
 			WicketApplication.SendMail(cust.getEmail(), "Your order have been placed successfully.", msg.toString());
 		} catch (Exception e){
 			tx.rollback();
+			System.out.println("rollback ");
 		} finally {
 			session.close();
 		}
