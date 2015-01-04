@@ -137,18 +137,20 @@ public class WicketApplication extends WebApplication
 		    } catch (HibernateException e) { 
 				e.printStackTrace(); 
 			}finally {
-				session.close();
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 			}
 			return Categories;
 	}
-	
+
 	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Item> getItems(Integer CategoryId) {
 		List<Item> Items = null;
-		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-		org.hibernate.Session session = sf.openSession(); 
+		SessionFactory sf = HibarnateUtil.getSessionFactory();
+		org.hibernate.Session session = sf.openSession();
 		Transaction tx = null;
-		try{ 
+		try{
 			tx = session.beginTransaction();
 			String hql = "From Item where categoryid=:categoryid order by descr";
 			Query q = session.createQuery(hql)
@@ -157,23 +159,25 @@ public class WicketApplication extends WebApplication
 			//info(Sha1.getHash(Password.getInput().toString()));
 			Items = q.list();
 			tx.commit();
-			
-		    } catch (HibernateException e) { 
+
+		    } catch (HibernateException e) {
 				if (tx!=null) tx.rollback();
-				e.printStackTrace(); 
+				e.printStackTrace();
 			}finally {
-				session.close();
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 				return Items;
 			}
 	}
-	
+
 	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Item> getActiveItems(Integer CategoryId) {
 		List<Item> Items = null;
-		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-		org.hibernate.Session session = sf.openSession(); 
+		SessionFactory sf = HibarnateUtil.getSessionFactory();
+		org.hibernate.Session session = sf.openSession();
 		Transaction tx = null;
-		try{ 
+		try{
 			tx = session.beginTransaction();
 			String hql = "From Item where categoryid=:categoryid and display = 1 and price > 0 order by descr";
 			Query q = session.createQuery(hql)
@@ -182,25 +186,27 @@ public class WicketApplication extends WebApplication
 			//info(Sha1.getHash(Password.getInput().toString()));
 			Items = q.list();
 			tx.commit();
-			
-		    } catch (HibernateException e) { 
+
+		    } catch (HibernateException e) {
 				if (tx!=null) tx.rollback();
-				e.printStackTrace(); 
+				e.printStackTrace();
 			}finally {
-				session.close();
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 				return Items;
 			}
 
-		
+
 	}
-	
+
 	@SuppressWarnings({ "finally", "unchecked" })
 	public List<Item> getAllItems(Integer CategoryId) {
 		List<Item> Items = null;
-		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-		org.hibernate.Session session = sf.openSession(); 
+		SessionFactory sf = HibarnateUtil.getSessionFactory();
+		org.hibernate.Session session = sf.openSession();
 		Transaction tx = null;
-		try{ 
+		try{
 			tx = session.beginTransaction();
 			String hql = "From Item where categoryid=:categoryid order by descr";
 			Query q = session.createQuery(hql)
@@ -209,25 +215,27 @@ public class WicketApplication extends WebApplication
 			//info(Sha1.getHash(Password.getInput().toString()));
 			Items = q.list();
 			tx.commit();
-			
-		    } catch (HibernateException e) { 
+
+		    } catch (HibernateException e) {
 				if (tx!=null) tx.rollback();
-				e.printStackTrace(); 
+				e.printStackTrace();
 			}finally {
-				session.close();
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 				return Items;
 			}
 
-		
+
 	}
 
 	@SuppressWarnings("finally")
 	public Item getItem(Integer ItemId) {
 		Item SelectedItem = new Item();
-		SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-		org.hibernate.Session session = sf.openSession(); 
+		SessionFactory sf = HibarnateUtil.getSessionFactory();
+		org.hibernate.Session session = sf.openSession();
 		Transaction tx = null;
-		try{ 
+		try{
 			tx = session.beginTransaction();
 			String hql = "From Item where itemid=:itemid";
 			Query q = session.createQuery(hql)
@@ -236,12 +244,14 @@ public class WicketApplication extends WebApplication
 			//info(Sha1.getHash(Password.getInput().toString()));
 			SelectedItem = (Item) q.list().get(0);
 			tx.commit();
-			
-		    } catch (HibernateException e) { 
+
+		    } catch (HibernateException e) {
 				if (tx!=null) tx.rollback();
-				e.printStackTrace(); 
+				e.printStackTrace();
 			}finally {
-				session.close();
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 				return SelectedItem;
 			}
 	    }
@@ -249,10 +259,10 @@ public class WicketApplication extends WebApplication
 		@SuppressWarnings("finally")
 		public Items_Category getCategory(Integer CategoryId) {
 			Items_Category SelectedCategory = new Items_Category();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From Items_Category where categoryid=:categoryid";
 				Query q = session.createQuery(hql)
@@ -261,22 +271,24 @@ public class WicketApplication extends WebApplication
 				//info(Sha1.getHash(Password.getInput().toString()));
 				SelectedCategory = (Items_Category) q.list().get(0);
 				tx.commit();
-				
-			    } catch (HibernateException e) { 
+
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
-					e.printStackTrace(); 
+					e.printStackTrace();
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 					return SelectedCategory;
 				}
 
 	}
-		
+
 		public Boolean addNewOrder(Order OrderHeader, ArrayList<OrderedItem> OrderDetails) {
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 			    session.save(OrderHeader);
 //			    System.out.print(OrderHeader.getOrderid());
@@ -290,12 +302,14 @@ public class WicketApplication extends WebApplication
 			    }
 			    tx.commit();
 			    return true;
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 					return false;
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 				}
 
 	}
@@ -303,45 +317,49 @@ public class WicketApplication extends WebApplication
 		@SuppressWarnings({ "finally", "unchecked" })
 		public List<Order> getOrdersFromUser() {
 			List<Order> ReturnList = new ArrayList<Order>();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From Order where custid=:custid";
 				Query q = session.createQuery(hql)
-						  .setParameter("custid", 
+						  .setParameter("custid",
 								  FruitShopSession.get().getCurrentUser().getCustomerId());
 				tx.commit();
 				ReturnList = q.list();
-				
-			    } catch (HibernateException e) { 
+
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 					return ReturnList;
 				}
 	}
-		
+
 		@SuppressWarnings({ "finally", "unchecked" })
 		public List<OrderedItem> getOrderDetails(Integer OrderId) {
 			List<OrderedItem> ReturnList = new ArrayList<OrderedItem>();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From OrderedItem where orderid=:orderid";
 				Query q = session.createQuery(hql)
-						  .setParameter("orderid", OrderId); 
+						  .setParameter("orderid", OrderId);
 				tx.commit();
 				ReturnList = q.list();
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 					return ReturnList;
 				}
 	}
@@ -349,32 +367,34 @@ public class WicketApplication extends WebApplication
 		@SuppressWarnings("finally")
 		public Order getOrderFromId(Integer OrderId) {
 			Order ReturnOrder = new Order();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From Order where orderid=:orderid";
 				Query q = session.createQuery(hql)
-						  .setParameter("orderid", OrderId); 
+						  .setParameter("orderid", OrderId);
 				tx.commit();
 				ReturnOrder = (Order) q.list().get(0);
-				
-			    } catch (HibernateException e) { 
+
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 					return ReturnOrder;
 				}
 	}
-		
+
 		public Boolean resetPassword(String Username, String newPassword) {
 			Customer user = new Customer();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From Customer where email=:username";
 				Query q = session.createQuery(hql)
@@ -394,23 +414,25 @@ public class WicketApplication extends WebApplication
 					tx.rollback();
 					return false;
 				}
-				
-				} catch (HibernateException e) { 
+
+				} catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 					return false;
 				} finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 				}
 		}
-		
+
 		public static Boolean SendMail(String eml, String sbj, String msg){
 			Properties props = new Properties();
 	    	props.setProperty("mail.transport.protocol", "smtp");
 		    props.setProperty("mail.host", "smtp.live.com");
 		    props.put("mail.smtp.starttls.enable", "true");
 		    props.put("mail.smtp.auth", "true");
-			
+
 		    javax.mail.Session session = javax.mail.Session.getDefaultInstance(props, new javax.mail.Authenticator()
 	        { protected PasswordAuthentication getPasswordAuthentication()
 	            {  return new PasswordAuthentication(System.getenv("HOTMAIL"), System.getenv("HOTMAIL_PASSWORD"));
@@ -424,7 +446,7 @@ public class WicketApplication extends WebApplication
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-	        
+
 	        Message message = new MimeMessage(session);
 	        try {
 	    	    trans.connect("smtp.live.com", 25, System.getenv("HOTMAIL"), System.getenv("HOTMAIL_PASSWORD"));
@@ -448,10 +470,10 @@ public class WicketApplication extends WebApplication
 
 		public Boolean AddOrUpdateUser(Customer NewUser) {
 			Integer CustId = NewUser.getCustomerId();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 			    session.saveOrUpdate(NewUser);
 			    tx.commit();
@@ -461,21 +483,23 @@ public class WicketApplication extends WebApplication
 			    	SendMail(bussiness_email, sbj, msg);
 			    }
 			    return true;
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 					return false;
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 				}
 
 		}
 
 		public Boolean MailExists(String Username) {
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From Customer where email=:username";
 				Query q = session.createQuery(hql)
@@ -486,126 +510,140 @@ public class WicketApplication extends WebApplication
 					return false;
 				}
 				  //tx.commit();
-				} catch (HibernateException e) { 
+				} catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 					return true;
 				} finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 				}
 		}
-		
+
 		public Boolean AddOrUpdateCategory(Items_Category ItmCat) {
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 			    session.saveOrUpdate(ItmCat);
 			    tx.commit();
 			    return true;
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 					return false;
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 				}
 
 		}
-		
+
 		public Boolean AddOrUpdateItem(Item CurItem) {
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 			    session.saveOrUpdate(CurItem);
 			    tx.commit();
 			    return true;
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 					return false;
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 				}
 		}
 
 		@SuppressWarnings({ "finally", "unchecked" })
 		public List<Order> getAllActiveOrders() {
 			List<Order> ReturnList = new ArrayList<Order>();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From Order where status < 4 order by date";
 				Query q = session.createQuery(hql);
 				tx.commit();
 				ReturnList = q.list();
-				} catch (HibernateException e) { 
+				} catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 					return ReturnList;
 				}
 	}
 		public Boolean UpdateOrder(Order Order) {
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 			    session.update(Order);
 			    tx.commit();
-			    
+
 			    return true;
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 					return false;
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 				}
 
 		}
-		
+
 		@SuppressWarnings({ "unchecked", "finally" })
 		public List<Customer> getCustomers() {
 			List<Customer> ReturnList = new ArrayList<Customer>();
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
 			Transaction tx = null;
-			try{ 
+			try{
 				tx = session.beginTransaction();
 				String hql = "From Customer where Admin=0 order by name";
 				Query q = session.createQuery(hql);
 				tx.commit();
 				ReturnList = q.list();
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					if (tx!=null) tx.rollback();
 					e.printStackTrace();
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 					return ReturnList;
 				}
 		}
-		
+
 
 		@SuppressWarnings({ "unchecked", "finally" })
 		public String getUserEmailById(int id) {
 			String userEmail = "";
-			SessionFactory sf = HibarnateUtil.getSessionFactory(); 
-			org.hibernate.Session session = sf.openSession(); 
-			try{ 
+			SessionFactory sf = HibarnateUtil.getSessionFactory();
+			org.hibernate.Session session = sf.openSession();
+			try{
 				Customer cust = (Customer) session.get(Customer.class, id);
 				userEmail = cust.getEmail();
-			    } catch (HibernateException e) { 
+			    } catch (HibernateException e) {
 					e.printStackTrace();
 				}finally {
-					session.close();
+				session.flush();
+				session.close();
+				HibarnateUtil.getSessionFactory().close();
 					return userEmail;
 				}
 		}

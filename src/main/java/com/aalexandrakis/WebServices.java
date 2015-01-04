@@ -80,8 +80,10 @@ public class WebServices {
 		    } catch (HibernateException e) { 
 				if (tx!=null) tx.rollback();
 				e.printStackTrace();
-			}finally { 
-				((org.hibernate.Session) session).close(); 
+			}finally {
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 			}
 		return Response.status(500).build();
 	}
@@ -111,8 +113,10 @@ public class WebServices {
 	    } catch (HibernateException e) { 
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
-	    } finally { 
-			((org.hibernate.Session) session).close(); 
+	    } finally {
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 		}
 		return Response.status(500).build();
 	}
@@ -142,8 +146,10 @@ public class WebServices {
 	    } catch (HibernateException e) { 
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
-		}finally { 
-			((org.hibernate.Session) session).close(); 
+		}finally {
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 		}
 		return Response.status(500).build();
 	}
@@ -207,8 +213,10 @@ public class WebServices {
 			e.printStackTrace();
 			jsonResponse.put("status", "FAILED");
 			jsonResponse.put("message", e.getMessage());
-		} finally {			
+		} finally {
+			session.flush();
 			session.close();
+			HibarnateUtil.getSessionFactory().close();
 			return Response.ok(jsonResponse.toString()).build();
 		}
 	}
@@ -251,8 +259,10 @@ public class WebServices {
 			e.printStackTrace();
 			jsonResponse.put("status", "FAILED");
 			jsonResponse.put("message", e.getMessage());
-		} finally {			
+		} finally {
+			session.flush();
 			session.close();
+			HibarnateUtil.getSessionFactory().close();
 			return Response.ok(jsonResponse.toString()).build();
 		}
 	}
@@ -281,8 +291,10 @@ public class WebServices {
 			e.printStackTrace();
 			jsonResponse.put("status", "FAILED");
 			jsonResponse.put("message", e.getMessage());
-		} finally {			
+		} finally {
+			session.flush();
 			session.close();
+			HibarnateUtil.getSessionFactory().close();
 			return Response.ok(jsonResponse.toString()).build();
 		}
 	}
@@ -334,8 +346,10 @@ public class WebServices {
 	    } catch (HibernateException e) { 
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
-	    } finally { 
-			((org.hibernate.Session) session).close(); 
+	    } finally {
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 		}
 		return Response.status(500).build();
 	}
@@ -368,8 +382,10 @@ public class WebServices {
 	    } catch (HibernateException e) { 
 			if (tx!=null) tx.rollback();
 			e.printStackTrace();
-	    } finally { 
-			((org.hibernate.Session) session).close(); 
+	    } finally {
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
 		}
 		return Response.status(500).build();
 	}

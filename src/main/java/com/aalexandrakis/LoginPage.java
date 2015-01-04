@@ -88,8 +88,10 @@ public class LoginPage extends BasePage {
 					}	
 			    } catch (HibernateException e) { 
 					e.printStackTrace(); 
-				}finally { 
-					((org.hibernate.Session) session).close(); 
+				}finally {
+					session.flush();
+					session.close();
+					HibarnateUtil.getSessionFactory().close();
 				}		
 			}
 

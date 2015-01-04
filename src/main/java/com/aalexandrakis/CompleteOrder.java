@@ -78,7 +78,9 @@ public class CompleteOrder extends HttpServlet{
 			Customer cust = (Customer) session.get(Customer.class, Integer.valueOf(req.getParameter("custom")));
 			WicketApplication.SendMail(cust.getEmail(), "Your is in status " + req.getParameter("payment_status")+ ".", 
 					"Complete your payment to start proccess your order.");
-			session.close();	
+			session.flush();
+			session.close();
+			HibarnateUtil.getSessionFactory().close();
         }
         
      }
@@ -142,7 +144,9 @@ public class CompleteOrder extends HttpServlet{
 			tx.rollback();
 			System.out.println("rollback ");
 		} finally {
+			session.flush();
 			session.close();
+			HibarnateUtil.getSessionFactory().close();
 		}
 	 }
 }

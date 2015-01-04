@@ -89,8 +89,10 @@ public class ResetPasswordPage extends BasePage {
 			    } catch (HibernateException e) { 
 					e.printStackTrace();
 					errorMessages.error("An internal error occured. Please try later.");
-				}finally { 
-					((org.hibernate.Session) session).close(); 
+				}finally {
+					session.flush();
+					session.close();
+					HibarnateUtil.getSessionFactory().close();
 				}		
 			}
 
