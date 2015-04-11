@@ -157,6 +157,7 @@
 		</dependency>
 	</dependencies>
 	<build>
+		<finalName>fsWicket</finalName>
 		<resources>
 			<resource>
 				<filtering>false</filtering>
