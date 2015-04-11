@@ -13,10 +13,6 @@ public class HibarnateUtil {
 	private static ServiceRegistry serviceRegistry;
 
 	public static SessionFactory getSessionFactory() throws HibernateException {
-		System.out.println("DBUSERNAME : " + System.getenv("FRUITSHOP_DB_USERNAME"));
-		System.out.println("DBPASSWORD : " + System.getenv("FRUITSHOP_DB_PASSWORD"));
-		System.out.println("DBIP : " + System.getenv("FRUITSHOP_DB_IP"));
-		System.out.println("DBPASSWORD : " + System.getenv("FRUITSHOP_DB_PASSWORD"));
 		Configuration configuration = new Configuration();
 		String fullDbUrl = "jdbc:mysql://" + System.getenv("FRUITSHOP_DB_IP")
 				+ ":" + System.getenv("FRUITSHOP_DB_PORT") + "/"
