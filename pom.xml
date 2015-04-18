@@ -232,25 +232,25 @@
 					<downloadSources>true</downloadSources>
 				</configuration>
 			</plugin>
-			<plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.2</version>
-            <configuration>
-                <failOnMissingWebXml>false</failOnMissingWebXml>
-                <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
-                <outputDirectory>webapps</outputDirectory>
-                <warName>ROOT</warName>
-                <archive>
-                    <addMavenDescriptor>false</addMavenDescriptor>
-                    <manifest>
-                        <addClasspath>false</addClasspath>
-                    </manifest>
-                    <manifestEntries/>
-                    <manifestFile/>
-                </archive>
-            </configuration>
-        </plugin>
+			<!-- <plugin>
+	            <groupId>org.apache.maven.plugins</groupId>
+	            <artifactId>maven-war-plugin</artifactId>
+	            <version>2.2</version>
+	            <configuration>
+	                <failOnMissingWebXml>false</failOnMissingWebXml>
+	                <webappDirectory>${project.build.directory}/${project.artifactId}</webappDirectory>
+	                <outputDirectory>webapps</outputDirectory>
+	                <warName>ROOT</warName>
+	                <archive>
+	                    <addMavenDescriptor>false</addMavenDescriptor>
+	                    <manifest>
+	                        <addClasspath>false</addClasspath>
+	                    </manifest>
+	                    <manifestEntries/>
+	                    <manifestFile/>
+	                </archive>
+	            </configuration> 
+	        </plugin>-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
